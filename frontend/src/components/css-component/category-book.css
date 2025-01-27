@@ -1,0 +1,60 @@
+.category-book-container {
+  width: 1100px;
+  padding-bottom: 15px;
+  background-color: #dfdfdf;
+  border-radius: 15px;
+  overflow: auto;
+}
+
+.category-book-header {
+  width: 100%;
+  height: 40px;
+  background-color: #5f7485;
+
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+
+  font-weight: bold;
+  color: white;
+}
+
+.tab {
+  width: 25%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.choosen-tab {
+  background: rgb(255, 102, 0);
+}
+
+.category-book-list-container {
+  width: 100%;
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: start;
+}
+
+.tab {
+  cursor: pointer;
+  padding: 10px 20px;
+  text-align: center;
+  color: #555;
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.tab:hover {
+  color: #000;
+  border-bottom: 2px solid #ddd;
+}
+
+.choosen-tab {
+  color: #000;
+  font-weight: bold;
+  border-bottom: 2px solid #000;
+}

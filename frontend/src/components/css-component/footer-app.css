@@ -1,0 +1,125 @@
+.footer {
+  width: 100%;
+}
+.footer.light {
+  color: #000000;
+  background-color: #206484;
+}
+.footer.dark {
+  color: #ffffff;
+  background-color: #272727;
+}
+.header-bottom {
+  width: 100%;
+  height: 60px;
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #194f6c;
+}
+.new-register {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap:2%;
+}
+.input-header-bottom {
+  border-radius: 5px;
+  width: 500px;
+  height: 80%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #206484;
+}
+.btn-bottom {
+  height: 50%;
+  border: none;
+  border-radius: 5px;
+  color: red;
+  font-weight: bold;
+  font-size: 15px;
+  background-color: #f5c92b;
+}
+
+.body-bottom {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+.address {
+  position: relative;
+  width: 40%;
+}
+.grid-item-logo {
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+.footer .fa-book {
+  font-size: 20px;
+  margin-right: 20px;
+}
+
+.footer-logo {
+  font-size: 20px;
+  font-weight: bold;
+  font-style: italic;
+}
+
+.vertical-line {
+  width: 2px;
+  height: 250px;
+  background-color: rgb(151, 151, 151);
+  /* Màu sắc */
+}
+
+.container-bottom-option {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+}
+.bottom-option {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 60%;
+}
+.title {
+  font-weight: bold;
+  font-size: 15px;
+}
+.content-address {
+  font-weight: bold;
+  height: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+.icon-contact {
+  width: 100%;
+  font-size: 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 4%;
+}
+.certificate {
+  width: 100%;
+  font-size: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.ship {
+  margin-top: 20px;
+}
+.ship img {
+  width: 100%;
+  height: 150px;
+}

@@ -1,0 +1,207 @@
+<div class="container mt-1">
+    <h4 class="text-primary mb-2">Danh sách tài khoản chờ phê duyệt</h4>
+    <div class="row mt-2 mb-1" style="padding-left: 10px; padding-right: 10px;">
+        <table id="accountTable" class="table table-bordered">
+            <thead class="table-light">
+                <tr>
+                    <th>ID Request</th>
+                    <th>Email</th>
+                    <th>Ngày tạo</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <!-- Phân trang -->
+        <div class="d-flex justify-content-center">
+            <nav>
+                <ul class="pagination" id="pagination"></ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<!-- Modal phê duyệt tài khoản -->
+<div class="modal fade" id="approveAccountModal" tabindex="-1" aria-labelledby="approveAccountModalLabel"
+    style="margin-top: 100px;" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title text-success" id="approveAccountModalLabel">Phê duyệt tài khoản</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="approveAccountForm">
+                    <div class="mb-3">
+                        <label for="approveAccountId" class="form-label">ID Request</label>
+                        <input type="text" class="form-control" id="approveAccountId" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="approveEmail" class="form-label">Email</label>
+                        <input type="text" class="form-control" id="approveEmail" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="initialBalance" class="form-label">Số dư khởi tạo</label>
+                        <input type="number" class="form-control" id="initialBalance" placeholder="Nhập số dư khởi tạo">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-success" id="approveAccountButton">Phê duyệt</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal thông báo -->
+<div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true"
+    data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="notificationModalLabel">Thông báo</h5>
+            </div>
+            <div class="modal-body">
+                <p id="notificationMessage">Nội dung thông báo sẽ hiển thị ở đây.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="closeNotificationBtn"
+                    data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        const perPage = 10;
+        let currentPage = 1;
+        let totalPages = 0;
+
+        // Hàm lấy dữ liệu các tài khoản yêu cầu phê duyệt
+        function fetchRequests(page = 1) {
+            $.ajax({
+                url: `/acc-request/api?page=${page}`,
+                method: "GET",
+                success: function (response) {
+                    console.log(response)
+                    totalPages = response.total_pages;
+                    currentPage = page;
+
+                    displayRequests(response.data);
+                    updatePagination();
+                },
+                error: function () {
+                    $('#notificationMessage').text('Không thể lấy danh sách tài khoản chờ phê duyệt.');
+                    $('#notificationModal').modal('show');
+                }
+            });
+        }
+
+        // Hàm hiển thị danh sách tài khoản chờ phê duyệt
+        function displayRequests(requests) {
+            const tbody = $('#accountTable tbody');
+            tbody.empty();
+
+            requests.forEach((request) => {
+                tbody.append(`
+                <tr>
+                    <td>${request.id_request}</td>
+                    <td>${request.email}</td>
+                    <td>${request.request_date}</td>
+                    <td>
+                        <button class="btn btn-success approve-request-btn" data-id="${request.id_request}" data-email="${request.email}">
+                            Phê duyệt
+                        </button>
+                    </td>
+                </tr>
+            `);
+            });
+
+            // Gán sự kiện cho nút "Phê duyệt"
+            $('.approve-request-btn').on('click', function () {
+                const requestId = $(this).data('id');
+                const email = $(this).data('email');
+
+                $('#approveAccountId').val(requestId);
+                $('#approveEmail').val(email);
+                $('#initialBalance').val(''); // Reset số dư khởi tạo
+                $('#approveAccountModal').modal('show');
+            });
+        }
+
+        // Xử lý phê duyệt tài khoản
+        $('#approveAccountButton').on('click', function () {
+            const requestId = $('#approveAccountId').val();
+            const email = $('#approveEmail').val();
+            const initialBalance = $('#initialBalance').val();
+
+            console.log(email, initialBalance)
+
+            if (!initialBalance || initialBalance < 0) {
+                $('#approveAccountModal').modal('hide');
+                $('#notificationMessage').text('Vui lòng nhập số dư khởi tạo hợp lệ.');
+                $('#notificationModal').modal('show');
+                return;
+            }
+
+            $.ajax({
+                url: `/acc-request/valid?id=${requestId}`,
+                method: "PUT",
+                contentType: "application/json",
+                data: JSON.stringify({ email: email, initial_balance: initialBalance }),
+                success: function () {
+                    $('#approveAccountModal').modal('hide');
+                    $('#notificationMessage').text('Tài khoản đã được phê duyệt thành công.');
+                    $('#notificationModal').modal('show');
+                    fetchRequests(currentPage); // Refresh the list after approval
+                },
+                error: function () {
+                    $('#approveAccountModal').modal('hide');
+                    $('#notificationMessage').text('Không thể phê duyệt tài khoản.');
+                    $('#notificationModal').modal('show');
+                }
+            });
+        });
+
+        // Hàm phân trang
+        function updatePagination() {
+            const pagination = $('#pagination');
+            pagination.empty();
+
+            pagination.append(`
+            <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+                <a class="page-link" href="#" data-page="${currentPage - 1}">«</a>
+            </li>
+        `);
+
+            for (let i = 1; i <= totalPages; i++) {
+                pagination.append(`
+                <li class="page-item ${i === currentPage ? 'active' : ''}">
+                    <a class="page-link" href="#" data-page="${i}">${i}</a>
+                </li>
+            `);
+            }
+
+            pagination.append(`
+            <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+                <a class="page-link" href="#" data-page="${currentPage + 1}">»</a>
+            </li>
+        `);
+
+            $('.page-link').on('click', function (e) {
+                e.preventDefault();
+                const page = $(this).data('page');
+                if (page >= 1 && page <= totalPages) {
+                    fetchRequests(page);
+                }
+            });
+        }
+
+        // Lấy danh sách tài khoản chờ phê duyệt khi load trang
+        fetchRequests(currentPage);
+    });
+
+</script>

@@ -1,0 +1,25 @@
+.admin-cancelled-order-body {
+    padding: 20px 30px;
+}
+
+.admin-cancelled-order-box {
+    background: white;
+    width: 100%;
+
+    padding: 20px 30px;
+
+    border-radius: 10px;
+}
+
+.admin-cancelled-order-body .loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}

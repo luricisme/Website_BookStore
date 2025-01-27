@@ -1,0 +1,31 @@
+#admin-app-root {
+    width: 100%;
+    min-height: 100vh;
+    background: rgb(225, 225, 225);
+}
+
+.admin-body {
+    display: flex;
+    min-height: calc(100vh - 60px);
+}
+
+.admin-side {
+    background: white;
+    width: 382px;
+
+    padding: 20px;
+
+    z-index: 1;
+}
+
+.admin-side-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-side-tab {
+    margin: 10px 30px;
+    padding: 10px 15px;
+    
+    cursor: pointer;
+}

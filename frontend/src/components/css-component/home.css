@@ -1,0 +1,12 @@
+.home-container{
+  padding: 40px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.ctn-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

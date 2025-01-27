@@ -1,0 +1,63 @@
+.checkout-container {
+    padding: 40px 0px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: 40px;
+}
+
+.checkout-address-box, .checkout-payment-box, .checkout-order-box{
+    width: 1100px;
+    padding: 10px 20px;
+
+    background: white;
+
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.checkout-item-row, .checkout-total-row {
+    margin: 0px;
+    padding: 20px 0px;
+}
+
+.checkout-item-row .img-container {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    overflow: hidden;
+
+    margin: 0px 20px;
+}
+
+.checkout-item-name {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    text-overflow: ellipsis;
+    overflow: hidden;
+
+    height: fit-content;
+}
+
+.checkout-item-price .checkout-old-price{
+    font-size: 14px;
+}
+
+
+.checkout-container .loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}

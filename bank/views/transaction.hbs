@@ -1,0 +1,195 @@
+<div class="container mt-1">
+    <div class="row mt-2 mb-1" style="padding-left: 10px; padding-right: 10px;">
+        <!-- Danh sách giao dịch -->
+        <div>
+            <h4 class="text-primary mb-2">Truy vấn giao dịch</h4>
+            <!-- Filter -->
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <input type="date" id="fromDate" class="form-control" placeholder="From Date">
+                </div>
+                <div class="col-md-4">
+                    <input type="date" id="toDate" class="form-control" placeholder="To Date">
+                </div>
+                <div class="col-md-4">
+                    <button type="button" id="filterButton" class="btn btn-primary">Lọc</button>
+                </div>
+            </div>
+
+            <table class="table table-bordered mt-4">
+                <thead class="table-light">
+                    <tr>
+                        <th>ID Giao dịch</th>
+                        <th>Người giao dịch</th>
+                        <th>Số tiền</th>
+                        <th>Thời gian</th>
+                        <th>Trạng thái</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody id="transactionBody">
+                    <!-- Transactions will be injected here -->
+                </tbody>
+            </table>
+
+            <!-- Paginate -->
+            <div class="d-flex justify-content-center">
+                <nav>
+                    <ul class="pagination" id="pagination">
+                        <!-- Pagination will be appended here -->
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="transactionModal" tabindex="-1" aria-labelledby="transactionModalLabel" aria-hidden="true"
+    style="margin-top: 100px;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title text-primary text-center" id="transactionModalLabel">Thông tin chi tiết giao dịch
+                </h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h5 class="mb-3 text-success">Thông tin giao dịch:</h5>
+                <p><strong>ID Đơn hàng:</strong> <span id="modal-id-invoice"></span></p>
+                <p><strong>ID Giao dịch:</strong> <span id="modal-id-payment"></span></p>
+                <p><strong>Người giao dịch:</strong> <span id="modal-full-name"></span></p>
+                <p><strong>Email:</strong> <span id="modal-email"></span></p>
+                <p><strong>Loại giao dịch:</strong> <span id="modal-loai-gd"></span></p>
+                <p><strong>Số tiền:</strong> <span id="modal-so-tien"></span> VND</p>
+                <p><strong>Thời gian:</strong> <span id="modal-thoi-gian"></span></p>
+                <p><strong>Trạng thái:</strong> <span id="modal-status"></span></p>
+                <hr>
+                <p><strong>Tài khoản số:</strong> <span id="modal-account-number"></span></p>
+                <p><strong>Số dư còn lại:</strong> <span id="modal-so-du"></span> VND</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+        const perPage = 1;  // Số lượng giao dịch mỗi trang
+        let currentPage = 1;
+        let totalPages = 0;
+
+        function fetchTransactions(page = 1, fromDate = null, toDate = null) {
+            $.ajax({
+                url: `/transaction/api?fromDate=${fromDate}&toDate=${toDate}&page=${page}`,
+                method: "GET",
+                success: function (response) {
+                    console.log(response.data)
+                    totalPages = response.total_pages;
+                    currentPage = page;
+                    updatePagination();
+
+                    displayTransactions(response.transaction);
+                    $('#balance').text(response.balance + " VND");
+                },
+                error: function () {
+                    alert('Failed to fetch transactions');
+                }
+            });
+        }
+
+        function displayTransactions(transactions) {
+            const tbody = $('#transactionBody');
+            tbody.empty();
+            transactions.forEach((transaction) => {
+                tbody.append(`
+                    <tr data-toggle="modal" data-target="#transactionModal" class="clickable-row"
+                        style="cursor: pointer;" data-id="${transaction.id_payment}" data-nguoigd="${transaction.full_name}"
+                        data-loaigd="Ngân hàng" data-sotien="${transaction.amount}" data-taikhoan="${transaction.account_number}" data-sodu="${transaction.balance}" data-idinvoice="${transaction.id_invoice}" data-email="${transaction.email}"
+                        data-thoigian="${transaction.payment_date}" data-status="${transaction.status}">
+                        <td>${transaction.id_payment}</td>
+                        <td>${transaction.full_name}</td>
+                        <td>${transaction.amount} VND</td>
+                        <td>${transaction.payment_date}</td>
+                        <td><span class="badge bg-info">${transaction.status}</span></td>
+                        <td>
+                            <button type="button" class="btn btn-primary">Xem chi tiết</button>
+                        </td>
+                    </tr>
+                `);
+            });
+            $('.clickable-row').on('click', function () {
+                var id_invoice = $(this).data('idinvoice');
+                var id_payment = $(this).data('id');
+                var full_name = $(this).data('nguoigd');
+                var email = $(this).data('email');
+                var loaiGiaoDich = $(this).data('loaigd');
+                var soTien = $(this).data('sotien');
+                var thoiGian = $(this).data('thoigian');
+                var taiKhoan = $(this).data('taikhoan');
+                var soDu = $(this).data('sodu');
+                var status = $(this).data('status');
+
+                $('#modal-id-invoice').text(id_invoice);
+                $('#modal-id-payment').text(id_payment);
+                $('#modal-full-name').text(full_name);
+                $('#modal-email').text(email);
+                $('#modal-loai-gd').text(loaiGiaoDich);
+                $('#modal-so-tien').text(soTien);
+                $('#modal-thoi-gian').text(thoiGian);
+                $('#modal-account-number').text(taiKhoan);
+                $('#modal-so-du').text(soDu);
+                $('#modal-status').text(status);
+
+                $('#transactionModal').modal('show');
+            });
+        }
+
+
+        function updatePagination() {
+            const pagination = $('#pagination');
+            pagination.empty();
+
+            // Nút "Trang trước"
+            pagination.append(`
+                <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+                    <a class="page-link" href="#" data-page="${currentPage - 1}">«</a>
+                </li>
+            `);
+
+            for (let i = 1; i <= totalPages; i++) {
+                pagination.append(`
+                    <li class="page-item ${i === currentPage ? 'active' : ''}">
+                        <a class="page-link" href="#" data-page="${i}">${i}</a>
+                    </li>
+                `);
+            }
+
+            // Nút "Trang sau"
+            pagination.append(`
+                <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+                    <a class="page-link" href="#" data-page="${currentPage + 1}">»</a>
+                </li>
+            `);
+
+            // Thêm sự kiện click cho các liên kết phân trang
+            $('.page-link').on('click', function (e) {
+                e.preventDefault();
+                const page = $(this).data('page');
+                if (page >= 1 && page <= totalPages) {
+                    currentPage = page;
+                    fetchTransactions(currentPage, $('#fromDate').val(), $('#toDate').val());
+                }
+            });
+        }
+
+        $('#filterButton').on('click', function () {
+            currentPage = 1; // Reset page to first
+            fetchTransactions(currentPage, $('#fromDate').val(), $('#toDate').val());
+        });
+
+
+
+        fetchTransactions(); // Fetch initial data
+    });
+</script>

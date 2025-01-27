@@ -1,0 +1,49 @@
+.admin-poster-body {
+    padding: 20px 30px;
+}
+
+.admin-poster-box {
+    background: white;
+    width: 100%;
+    min-height: 300px;
+
+    padding: 20px 30px;
+
+    border-radius: 10px;
+}
+
+.admin-poster-single-row {
+    padding: 20px;
+
+    border: 1px solid rgb(199, 199, 199);
+    border-radius: 10px;
+}
+
+.admin-poster-image-ctn {
+    width: 200px;
+    height: 150px;
+
+    border: 2px dashed rgb(199, 199, 199);
+    border-radius: 10px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: rgb(199, 199, 199);
+    font-size: 45px;
+}
+
+
+.admin-poster-body .loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}

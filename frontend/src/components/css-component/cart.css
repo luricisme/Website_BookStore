@@ -1,0 +1,107 @@
+.cart-container {
+    padding: 40px 0px;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+
+    gap: 20px;
+}
+
+.cart-detail {
+    width: 800px;
+}
+
+.cart-detail-header {
+    background: white;
+
+    /* Xóa margin padding của row chứ không nó bị lệch */
+    margin: 0px;
+    padding: 0px;
+
+    margin-bottom: 20px;
+    padding: 10px;
+
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+}
+
+.cart-detail-body {
+    background: white;
+
+    padding: 10px;
+
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+}
+
+.cart-item-row {
+    margin: 0px;
+    padding: 20px 0px;
+}
+
+.cart-item-row .img-container {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    overflow: hidden;
+
+    margin: 0px 20px;
+}
+
+.cart-item-name {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    text-overflow: ellipsis;
+    overflow: hidden;
+
+    height: fit-content;
+}
+
+.cart-item-price .oldPrice {
+    font-size: 14px;
+}
+
+.cart-item-quantity-box {
+    padding: 2px 10px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border: 1px solid rgb(199, 199, 199);
+    border-radius: 10px;
+}
+
+.cart-total {
+    background: white;
+    
+    width: 350px;
+    padding: 15px 20px;
+
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+
+    position: sticky;
+    top: 20px;
+}
+
+.cart-txtTotal {
+    border-bottom: 1px solid rgb(199, 199, 199);
+    padding-bottom: 10px;
+}
+
+.cart-container .loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}

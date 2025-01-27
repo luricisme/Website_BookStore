@@ -1,0 +1,39 @@
+/* #user-app-root {
+    width: 100%;
+
+    background-color: rgb(255, 255, 255);
+} */
+
+#user-app-root {
+  width: 100%;
+  transition: background-color 0.3s, color 0.3s;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+/* Nội dung chính của trang */
+.content {
+  flex: 1; /* Tự động co giãn chiếm không gian còn lại */
+}
+#user-app-root.light-mode {
+  background-color: rgb(255, 255, 255);
+  color: black;
+}
+
+#user-app-root.dark-mode {
+  background-color: rgb(82, 82, 82);
+  color: rgb(0, 0, 0);
+}
+
+.notification {
+  width: 100%;
+  padding: 3px;
+  background-color: rgb(228, 94, 94);
+
+  display: flex;
+  justify-content: center;
+
+  font-weight: bold;
+  font-size: 20px;
+  color: rgb(255, 255, 255);
+}

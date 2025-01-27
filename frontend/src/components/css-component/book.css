@@ -1,0 +1,820 @@
+.book-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  padding: 40px 0px;
+}
+.book-quantity-input{
+  width: 50%;
+  border: none;
+  outline: none;
+  display: flex;
+  justify-content: center;
+}
+
+.book-quantity-input::-webkit-inner-spin-button,
+.book-quantity-input::-webkit-outer-spin-button {
+  -webkit-appearance: none; /* Tắt mũi tên trên Chrome, Safari, Edge */
+  margin: 0;
+}
+
+
+.book-name {
+  font-size: 30px;
+  font-weight: bold;
+}
+.book-recommend{
+  background-color: white;
+  padding:1%;
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 10px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+
+}
+.book-same-book{
+  margin-top: 20px;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  gap: 5%;
+  padding-left: 1%;
+  padding-right: 1%;
+}
+.book-view-intro {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+
+  width: 70%;
+
+  border-radius: 10px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+
+  overflow: hidden;
+}
+
+.book-col-slide {
+  padding: 10px;
+  width: 50%;
+  height: 800px;
+  border-radius: 5px;
+  background-color: rgb(255, 255, 255);
+}
+
+.book-col-price {
+  width: 100%;
+  border-radius: 5px;
+}
+
+.book-col-infor {
+  width: 40%;
+  background-color: aquamarine;
+}
+
+.book-infor-product {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+  width: 200px;
+  height: 50px;
+  color: rgb(0, 149, 255);
+  font-size: 20px;
+  background-color: rgb(255, 255, 255);
+  font-weight: bold;
+  border: 2px, rgb(0, 0, 0), solid;
+  border-radius: 5px;
+}
+
+.book-see-more {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  width: 200px;
+  height: 30px;
+  border: 2px, rgb(0, 0, 0), solid;
+  border-radius: 5px;
+}
+
+.book-text-book {
+  width: 50%;
+}
+
+.book-flex-slide {
+  height: 100%;
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  transition: transform 0.5s ease;
+}
+
+.book-img-big {
+  width: 300px;
+  height: 100%;
+}
+
+.book-img-small {
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+}
+
+.book-img-small:hover {
+  scale: 1.1;
+}
+.book-isloading{
+  position: absolute;
+  top:50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  z-index: 2000;
+}
+
+.book-view-frame {
+  position: relative;
+  width: 300px;
+  height: 100%;
+  overflow: hidden;
+}
+
+.book-img {
+  height: 70%;
+  width: 100%;
+}
+
+.book-body-slide {
+  width: 100%;
+  height: 75%;
+  justify-content: center;
+  display: flex;
+  gap: 50px;
+  align-items: center;
+}
+
+.book-small-img {
+  position: absolute;
+  width: 80%;
+  height: 80%;
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  bottom: 0%;
+}
+
+.book-body-small {
+  position: relative;
+  width: 100%;
+  height: 25%;
+  display: flex;
+  justify-content: center;
+}
+
+.book-highlight {
+  border: 2px solid transparent;
+  cursor: pointer;
+}
+
+.book-highlight.active {
+  border: 2px solid #007bff;
+  border-radius: 5px;
+}
+
+.book-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  color: rgb(147, 147, 147);
+  font-size: 30px;
+  font-weight: bold;
+  border-radius: 50px;
+  cursor: pointer;
+}
+
+.book-btn:hover {
+  color: rgb(0, 0, 0);
+  background-color: rgb(188, 188, 188);
+}
+
+.book-same {
+  width: 100%;
+  height: 500px;
+  background-color: rgb(36, 36, 36);
+}
+
+.book-add-cart {
+  border-radius: 5px;
+  border: 2px solid #1670ac;
+  width: 48%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1%;
+  font-weight: bold;
+  cursor: pointer;
+}
+.h:hover{
+  cursor: pointer;
+  color:#1670ac;
+}
+
+.book-buy-now {
+  border-radius: 5px;
+  border: 2px solid #1670ac;
+  width: 48%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  font-weight: bold;
+  color: white;
+  background-color: #1670ac;
+  cursor: pointer;
+}
+
+.book-buy-now:hover {
+  scale: 1.1;
+}
+
+.book-cart-buy {
+  display: flex;
+  justify-content: space-between;
+  height: 6%;
+  color: #1670ac;
+  margin-top: 20px;
+}
+
+.book-container .fa-shipping-fast,
+.book-container .fa-box-open,
+.book-container .fa-store {
+  color: rgb(26, 116, 181);
+}
+
+.book-thoigiangiao {
+  display: flex;
+  justify-content: space-between;
+}
+
+body.modal {
+  filter: blur(5px);
+  /* Làm mờ toàn bộ body */
+  transition: filter 0.3s;
+  /* Hiệu ứng chuyển đổi mờ */
+}
+
+/* Overlay to make the background dark */
+.modal {
+  display: flex;
+  position: fixed;
+  /* Đảm bảo lớp modal luôn cố định trên màn hình */
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  /* Bao phủ toàn bộ chiều rộng */
+  height: 100vh;
+  /* Bao phủ viewport */
+  min-height: 100vh;
+  /* Đảm bảo bao phủ toàn bộ khi viewport nhỏ */
+  background-color: rgba(0, 0, 0, 0.5);
+  /* Làm mờ màn hình */
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  /* Ngăn nội dung trong modal cuộn */
+}
+
+/* Modal content */
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  max-width: 800px;
+  position: absolute;
+}
+
+.modal-content .close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 30px;
+  cursor: pointer;
+  border: 1px solid rgb(139, 139, 139);
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  color: #adadad;
+}
+
+.book-name {
+  background-color: #ffffff;
+  border-radius: 5px;
+}
+
+.book-ten-sach {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.book-price {
+  color: red;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.giamgia {
+  background-color: rgb(193, 52, 52);
+  border-radius: 5px;
+  width: 20px;
+  height: 7px;
+  color: white;
+  font-style: bold;
+}
+
+.book-name-sach {
+  background-color: white;
+  border-radius: 5px;
+  padding: 20px;
+}
+
+.book-da-ban {
+  font-size: 13px;
+  margin-top: 20px;
+}
+
+.book-ship {
+  background-color: #ffffff;
+  border-radius: 5px;
+  padding: 20px;
+}
+
+.book-quantity {
+  width: 10%;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.book-col-right {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  align-items: center;
+  max-height: 800px;
+  overflow-y: auto;
+}
+
+.book-detail-infor {
+  position: relative;
+  background-color: #ffffff;
+  border-radius: 5px;
+  width: 100%;
+  padding: 20px;
+}
+
+.book-row-ma-hang {
+  position: relative;
+  width: 100%;
+}
+
+.book-ma-giao-hang {
+  position: absolute;
+  left: 30%;
+}
+
+.book-spec {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 5px;
+  background-color: #ffffff;
+  width: 100%;
+}
+
+.book-spec span {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+  max-height: 100px;
+}
+
+.book-spec span::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 50px;
+  /* Độ mờ 20px từ đáy */
+  background: linear-gradient(to bottom,
+      rgba(255, 255, 255, 0),
+      rgba(255, 255, 255, 1));
+  /* Hiệu ứng mờ dần */
+}
+
+.book-spec .expanded {
+  max-height: none; /* Xóa giới hạn chiều cao khi mở rộng */
+  white-space: normal; /* Cho phép nội dung xuống dòng */
+}
+
+.book-spec .expanded::after {
+  display: none;
+  /* Ẩn hiệu ứng mờ khi mở rộng */
+}
+
+.book-btn-see-more-des {
+  width: 20%;
+  height: 5%;
+  color: rgb(56, 116, 221);
+  cursor: pointer;
+}
+
+.book-detail-infor {
+  margin-top: 20px;
+  transition: max-height 0.3s ease;
+  /* Thêm hiệu ứng cho max-height */
+}
+
+.book-detail-infor.expanded {
+  max-height: none;
+  /* Xóa giới hạn chiều cao khi mở rộng */
+  overflow: visible;
+  /* Hiển thị nội dung đầy đủ khi mở rộng */
+}
+
+.book-btn-infor {
+  margin-top: 5px;
+  width: 15%;
+  border: 1px solid rgb(149, 149, 149);
+  border-radius: 5px;
+  color: blue;
+}
+
+/* Review */
+.book-review {
+  position: relative;
+  width: 70%;
+  padding: 20px;
+  display: flex;
+  flex-flow: row wrap;
+  align-content: start;
+  /* border: 1px solid #919191; */
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+}
+
+.book-review-title {
+  width: 100%;
+  height: 35px;
+
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.book-review-rate,
+.book-review-btn-review {
+  width: 50%;
+  height: 170px;
+  display: flex;
+  align-items: center;
+}
+
+.book-review-rate {
+  justify-content: start;
+}
+
+.book-review-btn-review {
+  justify-content: center;
+}
+
+.book-review-rate-overall {
+  width: 200px;
+  margin-right: 20px;
+}
+
+.rate-digit {
+  height: 75px;
+
+  text-align: center;
+
+  font-size: 60px;
+}
+
+.rate-star {
+  display: flex;
+  justify-content: space-between;
+
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+.rate-based-on {
+  margin-top: 5px;
+  text-align: center;
+
+  color: rgb(140, 140, 140);
+}
+
+.book-review-rate-detail {
+  width: 400px;
+  height: 140px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.rate-each {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rating-bar {
+  width: 200px;
+  height: 10px;
+
+  margin-left: 10px;
+  margin-right: 10px;
+
+  border-radius: 10px;
+
+  background: rgb(233, 233, 233);
+}
+
+.rating-bar-fill {
+  height: 100%;
+
+  border-radius: 10px;
+  background: rgb(241, 189, 0);
+}
+
+.rate-num {
+  width: 60px;
+}
+
+.book-review .fa-solid.fa-star {
+  color: rgb(241, 189, 0);
+}
+
+.book-review .fa-regular.fa-star {
+  color: rgb(199, 199, 199);
+}
+
+.your-review-form {
+  border-top: 1px solid rgb(199, 199, 199);
+
+  width: 100%;
+
+  margin-top: 15px;
+  padding: 15px 20px;
+  padding-bottom: 5px;
+}
+
+.form-star-rating {
+  display: flex;
+  gap: 5px;
+}
+
+.review-image {
+  width: 150px;
+  height: 150px;
+
+  border: 2px dashed rgb(199, 199, 199);
+  border-radius: 10px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: rgb(199, 199, 199);
+  font-size: 45px;
+  cursor: pointer;
+}
+
+.reviews {
+  position: relative;
+  width: 100%;
+  border-top: 1px solid rgb(199, 199, 199);
+  margin-top: 15px;
+  padding: 15px 20px;
+}
+
+.book-btn-review {
+  position: absolute;
+  border-radius: 5px;
+  border: none;
+  left: 50%;
+  transform: translate(-50%);
+}
+
+.review {
+  width: 100%;
+
+  padding: 10px 0px;
+
+  display: flex;
+
+  border-bottom: 1px solid rgb(199, 199, 199);
+}
+
+/* 
+.review-avatar-ctn {
+  width: 80px;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.review-avatar {
+  width: 50px;
+  height: 50px;
+
+  border-radius: 100px;
+
+  overflow: hidden;
+} */
+
+.review-content-ctn {
+  width: 100%;
+  padding: 10px;
+}
+.image-review {
+  border-radius: 3px;
+}
+
+.review-rate-star {
+  width: 200px;
+  height: 20px;
+
+  display: flex;
+  align-items: center;
+  gap: 3px;
+
+  font-size: 10px;
+}
+
+.review-date {
+  font-size: 10px;
+  color: rgb(199, 199, 199);
+}
+.a {
+  background-color: #a0a0a0;
+}
+
+.review-content-text {
+  margin: 10px 0px;
+}
+
+.review-content-images {
+  display: flex;
+  flex-flow: row wrap;
+
+  gap: 10px;
+
+  margin-bottom: 20px;
+}
+
+.image-ctn {
+  width: 150px;
+  height: 150px;
+}
+
+.image-ctn img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.review-respond {
+  background: rgb(236, 236, 236);
+
+  padding: 10px 15px;
+
+  border-radius: 10px;
+}
+
+.nhacungcap {
+  position: absolute;
+}
+
+.nhaxuatban {
+  position: absolute;
+  top: 50%;
+}
+
+.tacgia {
+  position: absolute;
+  left: 50%;
+}
+
+.hinhthuc {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+}
+
+.gia {
+  margin-top: 20px;
+  width: 60%;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.phantram {
+  width: 15%;
+  background-color: #dd2626;
+  color: white;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+}
+
+.book-old-price {
+  font-size: 10px;
+  color: #999999;
+  text-decoration: line-through;
+}
+
+.book-SL {
+  margin-top: 20px;
+  display: flex;
+  gap: 1.2%;
+}
+
+.book-quantity-container {
+  border: 2px solid rgb(142, 142, 142);
+  width: 15%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 5px;
+}
+
+.book-quantity-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  width: 30%;
+}
+
+.book-laout-top {
+  position: relative;
+  margin-top: 20px;
+  width: 100%;
+  height: 100px;
+}
+
+.fadeIn {
+  animation: fadeIn 1s ease-in-out forwards;
+}
+
+/* Hiệu ứng fade-out (ẩn) */
+.fadeOut {
+  animation: fadeOut 1s ease-in-out forwards;
+}
+
+/* Keyframes cho fade-in */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px); /* Di chuyển từ dưới lên */
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Keyframes cho fade-out */
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(20px); /* Di chuyển xuống dưới */
+  }
+}
+.toast {
+  transition: opacity 0.5s ease-out;
+}

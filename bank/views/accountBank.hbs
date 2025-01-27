@@ -1,0 +1,380 @@
+<div class="container mt-1">
+    <h4 class="text-primary mb-2">Danh sách tài khoản</h4>
+    <div class="row mt-2 mb-1" style="padding-left: 10px; padding-right: 10px;">
+        <table id="accountTable" class="table table-bordered">
+            <thead class="table-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Email</th>
+                    <th>Balance</th>
+                    <th>Full Name</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <!-- Phân trang -->
+        <div class="d-flex justify-content-center">
+            <nav>
+                <ul class="pagination" id="pagination"></ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<!-- Modal thay đổi số dư -->
+<div class="modal fade" id="changeBalanceModal" tabindex="-1" aria-labelledby="changeBalanceModalLabel"
+    style="margin-top: 100px;" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title text-primary" id="changeBalanceModalLabel">Thay đổi số dư</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="changeBalanceForm">
+                    <div class="mb-3">
+                        <label for="accountId" class="form-label">ID Tài khoản</label>
+                        <input type="text" class="form-control" id="accountId" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="name" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="newBalance" class="form-label">Số dư mới</label>
+                        <input type="number" class="form-control" id="newBalance" placeholder="Nhập số dư mới">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-primary" id="saveBalanceButton">Lưu thay đổi</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal xem dòng tiền -->
+<div class="modal fade" id="transactionHistoryModal" tabindex="-1" aria-labelledby="transactionHistoryModalLabel"
+    aria-hidden="true" style="margin-top: 100px;">
+    <div class="modal-dialog modal-lg"> <!-- Thêm modal-lg để mở rộng modal -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="transactionHistoryModalLabel">Lịch sử giao dịch 
+                <p id="email-user" style="margin-bottom: 5px; color: blue; font-size: 17px;"></p></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>ID Giao dịch</th>
+                            <th>Ngày giao dịch</th>
+                            <th>Số tiền</th>
+                            <th>Số dư cuối</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="transactionTableBody"></tbody>
+                </table>
+                <!-- Phân trang -->
+                <div class="d-flex justify-content-center">
+                    <nav>
+                        <ul class="pagination" id="transactionPagination"></ul>
+                    </nav>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal xem chi tiết giao dịch -->
+<div class="modal fade" id="transactionModal" tabindex="-1" aria-labelledby="transactionModalLabel" aria-hidden="true"
+    style="margin-top: 100px;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title text-primary text-center" id="transactionModalLabel">Thông tin chi tiết giao dịch
+                </h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h5 class="mb-3 text-success">Thông tin giao dịch:</h5>
+                <p><strong>ID Giao dịch:</strong> <span id="modal-id-transaction"></span></p>
+                <p><strong>Admin:</strong> <span id="modal-admin-email"></span></p>
+                <p><strong>Email Người dùng:</strong> <span id="modal-user-email"></span></p>
+                <p><strong>Số tiền:</strong> <span id="modal-amount"></span> VND</p>
+                <p><strong>Thời gian:</strong> <span id="modal-date"></span></p>
+                <p><strong>Số dư trước:</strong> <span id="modal-balance-before"></span> VND</p>
+                <p><strong>Số dư sau:</strong> <span id="modal-balance-after"></span> VND</p>
+                <p><strong>Phương thức:</strong> <span id="modal-method"></span> </p>
+                <p><strong>Mô tả:</strong> <span id="modal-description"></span></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true"
+    data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="notificationModalLabel">Thông báo</h5>
+            </div>
+            <div class="modal-body">
+                <p id="notificationMessage">Nội dung thông báo sẽ hiển thị ở đây.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="closeNotificationBtn"
+                    data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        const perPage = 10;
+        let currentPage = 1;
+        let totalPages = 0;
+        let transactions = [];
+        let email_stored = '';
+
+        function fetchAccounts(page = 1) {
+            $.ajax({
+                url: `/acc-bank/api?page=${page}`,
+                method: "GET",
+                success: function (response) {
+                    totalPages = response.total_pages;
+                    currentPage = page;
+
+                    displayAccounts(response.data);
+                    updatePagination();
+                },
+                error: function () {
+                    $('#notificationMessage').text('Failed to fetch accounts.'); // Cập nhật nội dung thông báo
+                    $('#notificationModal').modal('show');   // Hiển thị modal
+                }
+            });
+        }
+
+        function displayAccounts(accounts) {
+            const tbody = $('#accountTable tbody');
+            tbody.empty();
+
+            accounts.forEach((account) => {
+                tbody.append(`
+                <tr>
+                    <td>${account.account_id}</td>
+                    <td>${account.email}</td>
+                    <td>${account.balance} VND</td>
+                    <td>${account.full_name || 'N/A'}</td>
+                    <td>
+                        <button class="btn btn-info view-transaction-btn" data-id="${account.account_id}" data-email="${account.email}">Xem dòng tiền</button>
+                        <button class="btn btn-warning change-balance-btn" data-id="${account.account_id}" data-balance="${account.balance}" data-name="${account.full_name}"> 
+                            Thay đổi số dư
+                        </button>
+                    </td>
+                </tr>
+            `);
+            });
+
+            // Gán sự kiện cho nút "Xem dòng tiền"
+            $('.view-transaction-btn').on('click', function () {
+                const email = $(this).data('email');
+                fetchTransactions(email, 1);
+            });
+
+            // Gán sự kiện cho nút "Thay đổi số dư"
+            $('.change-balance-btn').on('click', function () {
+                const accountId = $(this).data('id');
+                const name = $(this).data('name');
+                const currentBalance = Number($(this).data('balance').replace(/,/g, ""));
+
+                console.log(currentBalance)
+
+                $('#accountId').val(accountId);
+                $('#name').val(name);
+                $('#newBalance').val(currentBalance);
+                $('#changeBalanceModal').modal('show');
+            });
+        }
+
+        function updatePagination() {
+            const pagination = $('#pagination');
+            pagination.empty();
+
+            pagination.append(`
+                <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+                    <a class="page-link" href="#" data-page="${currentPage - 1}">«</a>
+                </li>
+            `);
+
+            for (let i = 1; i <= totalPages; i++) {
+                pagination.append(`
+                    <li class="page-item ${i === currentPage ? 'active' : ''}">
+                        <a class="page-link" href="#" data-page="${i}">${i}</a>
+                    </li>
+                `);
+            }
+
+            pagination.append(`
+            <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+                <a class="page-link" href="#" data-page="${currentPage + 1}">»</a>
+            </li>
+        `);
+
+            $('.page-link').on('click', function (e) {
+                e.preventDefault();
+                const page = $(this).data('page');
+                if (page >= 1 && page <= totalPages) {
+                    fetchAccounts(page);
+                }
+            });
+        }
+
+        // Lưu thay đổi số dư
+        $('#saveBalanceButton').on('click', function () {
+            const accountId = $('#accountId').val();
+            const newBalance = $('#newBalance').val();
+
+            if (!newBalance || newBalance < 0) {
+                $('#changeBalanceModal').modal('hide');
+                $('#notificationMessage').text('Vui lòng nhập số dư hợp lệ.'); // Cập nhật nội dung thông báo
+                $('#notificationModal').modal('show');   // Hiển thị modal
+                return;
+            }
+
+            $.ajax({
+                url: `/acc-bank/change?id=${accountId}`,
+                method: "PUT",
+                contentType: "application/json",
+                data: JSON.stringify({ balance: newBalance }),
+                success: function () {
+                    $('#changeBalanceModal').modal('hide');
+
+                    $('#notificationMessage').text('Số dư đã được cập nhật thành công.'); // Cập nhật nội dung thông báo
+                    $('#notificationModal').modal('show');   // Hiển thị modal
+
+                    fetchAccounts(currentPage);
+                },
+                error: function () {
+                    $('#changeBalanceModal').modal('hide');
+
+                    $('#notificationMessage').text('Không thể cập nhật số dư.'); // Cập nhật nội dung thông báo
+                    $('#notificationModal').modal('show');   // Hiển thị modal
+                }
+            });
+        });
+
+        fetchAccounts();
+
+
+        // Lấy thông tin giao dịch của người dùng
+        function fetchTransactions(email, page = 1) {
+            email_stored = email;
+            $.ajax({
+                url: `/acc-bank/history?email=${email}&page=${page}`,
+                method: "GET",
+                success: function (response) {
+                    console.log(response)
+                    transactions = response.data;
+                    displayTransactions();
+                    updateTransactionPagination(response.total_pages, page);
+                    $('#transactionHistoryModal').modal('show');
+                },
+                error: function () {
+                    alert('Không thể tải lịch sử giao dịch.');
+                }
+            });
+        }
+
+        // Hiển thị các giao dịch trong modal
+        function displayTransactions() {
+            $('#email-user').text(`Email: ${email_stored}`);
+            const tbody = $('#transactionTableBody');
+            tbody.empty();
+
+            transactions.forEach((transaction) => {
+                tbody.append(`
+                <tr>
+                    <td>${transaction.transaction_id}</td>
+                    <td>${transaction.transaction_date}</td>
+                    <td>${transaction.amount} VND</td>
+                    <td>${transaction.balance_after}</td>
+                    <td>
+                        <button class="btn btn-info view-transaction-detail-btn" data-id="${transaction.transaction_id}">Xem chi tiết</button>
+                    </td>
+                </tr>
+            `);
+            });
+
+            $('.view-transaction-detail-btn').on('click', function () {
+                const transactionId = $(this).data('id');
+                console.log(transactionId)
+                console.log(transactions)
+
+                // Tìm giao dịch với ID tương ứng
+                const transaction = transactions.find(t => t.transaction_id === transactionId);
+
+                console.log(transaction)
+                // Hiển thị thông tin chi tiết trong modal
+                $('#modal-id-transaction').text(transaction.transaction_id);
+                $('#modal-admin-email').text(transaction.admin_email);
+                $('#modal-user-email').text(transaction.user_email);
+                $('#modal-amount').text(transaction.amount);
+                $('#modal-date').text(transaction.transaction_date);
+                $('#modal-method').text(transaction.transaction_type);
+                $('#modal-balance-before').text(transaction.balance_before);
+                $('#modal-balance-after').text(transaction.balance_after);
+                $('#modal-description').text(transaction.description);
+
+                // Hiển thị modal
+                $('#transactionModal').modal('show');
+            });
+        }
+
+        // Cập nhật phân trang cho giao dịch
+        function updateTransactionPagination(totalPages, currentPage) {
+            const pagination = $('#transactionPagination');
+            pagination.empty();
+
+            pagination.append(`
+                <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+                    <a class="page-link" href="#" data-page="${currentPage - 1}">«</a>
+                </li>
+            `);
+
+            for (let i = 1; i <= totalPages; i++) {
+                pagination.append(`
+                    <li class="page-item ${i === currentPage ? 'active' : ''}">
+                        <a class="page-link" href="#" data-page="${i}">${i}</a>
+                    </li>
+                `);
+            }
+
+            pagination.append(`
+                <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+                    <a class="page-link" href="#" data-page="${currentPage + 1}">»</a>
+                </li>
+            `);
+
+            $('.page-link').on('click', function (e) {
+                e.preventDefault();
+                const page = $(this).data('page');
+                if (page >= 1 && page <= totalPages) {
+                    fetchTransactions(email_stored, page);
+                }
+            });
+        }
+
+
+    });
+
+</script>

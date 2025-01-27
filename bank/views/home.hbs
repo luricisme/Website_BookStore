@@ -1,0 +1,184 @@
+<div class="container mt-1">
+    <div class="row mt-2" style="padding-left: 10px; padding-right: 10px;">
+        <!-- Danh sách giao dịch -->
+        <div>
+            <h4 class="text-primary">NGÂN HÀNG ABC PHÁT TÀI</h4>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <!-- Số tiền hiện có -->
+        <div class="col-md-8 offset-md-2 text-center">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Số tiền hiện có</h5>
+                    <h2 class="card-text text-success">{{balance.balance}} VND</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4" style="padding-left: 10px; padding-right: 10px;">
+        <!-- Lịch sử dòng tiền -->
+        <div>
+            <h4 class="text-primary">Lịch sử dòng tiền</h4>
+            <table class="table table-bordered" id="transactionTable">
+                <thead class="table-light">
+                    <tr>
+                        <th>ID</th>
+                        <th>Thời gian</th>
+                        <th>Số tiền</th>
+                        <th>Số dư trước</th>
+                        <th>Số dư sau</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Dữ liệu sẽ được tải qua AJAX -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Paginate -->
+    <div class="d-flex justify-content-center">
+        <nav>
+            <ul class="pagination" id="pagination">
+                <!-- Pagination will be appended here -->
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="transactionModal" tabindex="-1" aria-labelledby="transactionModalLabel" aria-hidden="true"
+    style="margin-top: 100px;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title text-primary text-center" id="transactionModalLabel">Thông tin chi tiết giao dịch
+                </h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h5 class="mb-3 text-success">Thông tin giao dịch:</h5>
+                <p><strong>ID Giao dịch:</strong> <span id="modal-id-transaction"></span></p>
+                <p><strong>Admin:</strong> <span id="modal-admin-email"></span></p>
+                <p><strong>Email Người dùng:</strong> <span id="modal-user-email"></span></p>
+                <p><strong>Số tiền:</strong> <span id="modal-amount"></span> VND</p>
+                <p><strong>Thời gian:</strong> <span id="modal-date"></span></p>
+                <p><strong>Số dư trước:</strong> <span id="modal-balance-before"></span> VND</p>
+                <p><strong>Số dư sau:</strong> <span id="modal-balance-after"></span> VND</p>
+                <p><strong>Mô tả:</strong> <span id="modal-description"></span></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        const perPage = 10; // Số mục trên mỗi trang
+        let currentPage = 1;
+        let totalPages = 0;
+
+        // Hàm gọi API để lấy dữ liệu lịch sử giao dịch
+        function loadTransactions(page) {
+            $.ajax({
+                url: `/get-data?page=${page}`, // Gọi API với tham số phân trang
+                method: 'GET',
+                success: function (data) {
+                    const transactions = data.transaction;
+                    const totalRecords = data.total_records;
+                    totalPages = data.total_pages;
+                    currentPage = page;
+
+                    // Xóa nội dung hiện tại trong bảng
+                    $('#transactionTable tbody').empty();
+
+                    // Duyệt qua các giao dịch và hiển thị chúng
+                    transactions.forEach(transaction => {
+                        $('#transactionTable tbody').append(`
+                        <tr data-id="${transaction.transaction_id}" class="clickable-row">
+                            <td>${transaction.transaction_id}</td>
+                            <td>${transaction.transaction_date}</td>
+                            <td>${transaction.amount} VND</td>
+                            <td>${transaction.balance_before} VND</td>
+                            <td>${transaction.balance_after} VND</td>
+                            <td>
+                                <button type="button" class="btn btn-primary view-details-btn">Xem chi tiết</button>
+                            </td>
+                        </tr>
+                    `);
+                    });
+
+                    updatePagination();
+
+                    // Hiển thị chi tiết giao dịch khi nhấn "Xem chi tiết"
+                    $('.view-details-btn').on('click', function () {
+                        const row = $(this).closest('tr');
+                        const transactionId = row.data('id');
+
+                        // Tìm giao dịch với ID tương ứng
+                        const transaction = transactions.find(t => t.transaction_id === transactionId);
+
+                        // Hiển thị thông tin chi tiết trong modal
+                        $('#modal-id-transaction').text(transaction.transaction_id);
+                        $('#modal-admin-email').text(transaction.admin_email);
+                        $('#modal-user-email').text(transaction.user_email);
+                        $('#modal-amount').text(transaction.amount);
+                        $('#modal-date').text(transaction.transaction_date);
+                        $('#modal-balance-before').text(transaction.balance_before);
+                        $('#modal-balance-after').text(transaction.balance_after);
+                        $('#modal-description').text(transaction.description);
+
+                        // Hiển thị modal
+                        $('#transactionModal').modal('show');
+                    });
+                },
+                error: function (error) {
+                    console.error("Error loading transactions:", error);
+                }
+            });
+        }
+
+        function updatePagination() {
+            const pagination = $('#pagination');
+            pagination.empty();
+
+            // Nút "Trang trước"
+            pagination.append(`
+                <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+                    <a class="page-link" href="#" data-page="${currentPage - 1}">«</a>
+                </li>
+            `);
+
+            for (let i = 1; i <= totalPages; i++) {
+                pagination.append(`
+                    <li class="page-item ${i === currentPage ? 'active' : ''}">
+                        <a class="page-link" href="#" data-page="${i}">${i}</a>
+                    </li>
+                `);
+            }
+
+            // Nút "Trang sau"
+            pagination.append(`
+                <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+                    <a class="page-link" href="#" data-page="${currentPage + 1}">»</a>
+                </li>
+            `);
+
+            // Thêm sự kiện click cho các liên kết phân trang
+            $('.page-link').on('click', function (e) {
+                e.preventDefault();
+                const page = $(this).data('page');
+                if (page >= 1 && page <= totalPages) {
+                    currentPage = page;
+                    loadTransactions(currentPage);
+                }
+            });
+        }
+
+        // Load trang đầu tiên khi tải trang
+        loadTransactions(1);
+    });
+</script>
