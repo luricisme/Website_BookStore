@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nguyenvinhluong242004/Website_Book-Store.git"
+    "url": "git+https://github.com/luricisme/Website_BookStore.git"
   },
-  "author": "",
+  "author": "luricisme",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/nguyenvinhluong242004/Website_Book-Store/issues"
+    "url": "https://github.com/luricisme/Website_BookStore.git/issues"
   },
-  "homepage": "https://github.com/nguyenvinhluong242004/Website_Book-Store#readme",
+  "homepage": "https://github.com/luricisme/Website_BookStore.git#readme",
   "dependencies": {
     "axios": "^1.7.9",
     "bcrypt": "^5.1.1",
@@ -35,6 +35,8 @@
     "nodemon": "^3.1.7",
     "passport": "^0.7.0",
     "passport-google-oauth2": "^0.2.0",
-    "pg": "^8.13.1"
+    "pg": "^8.13.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
   }
 }

@@ -1,6 +1,7 @@
+require('dotenv').config({ path: '../.env' });
 const path = require('path');
 const express = require('express');
-// const morgan = require('morgan');
+const morgan = require('morgan');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
@@ -12,14 +13,14 @@ const passport = require('passport');
 const privateKey = fs.readFileSync(path.join(__dirname, '../sslkeys/key.pem'), 'utf8');
 const certificate = fs.readFileSync(path.join(__dirname, '../sslkeys/cert.pem'), 'utf8');
 const options = { key: privateKey, cert: certificate };
-
-const app = express();
-
-require('dotenv').config({ path: '../.env' });
 const bodyParser = require('body-parser');
 const route = require('../routes/app.routes');
 const pool = require('../config/database');
+const setupSwagger = require('../config/swaggerConfig');
+
 const port = process.env.PORT_BACK || 8888;
+
+const app = express();
 app.use(credentials);
 app.use(cors(corsOptions));
 app.use(cookieParser());
@@ -32,7 +33,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
-// app.use(morgan('combined'));
+app.use(morgan('combined'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -45,15 +46,15 @@ pool.connect((err, client, release) => {
     require('../config/google_passport');
 });
 
+// Set up swagger api docs
+setupSwagger(app);
+
 // Route init
 route(app);
 
-// const http = require('http');
-
-// http.createServer(app).listen(port, '0.0.0.0', () => {
-//     console.log(`HTTP server is running at http://0.0.0.0:${port}`);
-// });
-
-
 // Lắng nghe trên localhost
-https.createServer(options, app).listen(port, () => console.log(`Example at: ${process.env.DOMAIN_BACKEND}`));
+https.createServer(options, app).listen(port, () => {
+    console.log(`Server running at https://localhost:${port}`);
+    console.log(`Swagger UI available at https://localhost:${port}/api-docs`);
+});
+
