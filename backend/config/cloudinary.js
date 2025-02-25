@@ -10,15 +10,16 @@ cloudinary.config({
 
 const storage = new CloudinaryStorage({
   cloudinary,
-  allowedFormats: ['jpg', 'png', 'jpeg', 'gif', 'webp'], // Thêm nhiều định dạng ảnh
-  transformation: [
-    { 
-      quality: 'auto',   // Tự động nén ảnh với chất lượng tối ưu
-      fetch_format: 'auto', // Chuyển đổi định dạng sang 'webp' hoặc 'auto' cho hiệu suất tối ưu
-    }
-  ],
-  filename: function (req, file, cb) {
-    cb(null, file.originalname); 
+  params: {
+    folder: 'Website_BookStore',  // 🔥 Đặt tên thư mục lưu ảnh tại đây
+    allowed_formats: ['jpg', 'png', 'jpeg', 'gif', 'webp'], // Định dạng được phép
+    transformation: [
+      {
+        quality: 'auto', // Tự động tối ưu chất lượng
+        fetch_format: 'auto' // Tự động chuyển định dạng phù hợp
+      }
+    ],
+    public_id: (req, file) => file.originalname // Giữ nguyên tên file gốc
   }
 });
 
