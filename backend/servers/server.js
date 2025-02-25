@@ -18,7 +18,7 @@ const route = require('../routes/app.routes');
 const pool = require('../config/database');
 const setupSwagger = require('../config/swaggerConfig');
 
-const port = process.env.PORT_BACK || 8888;
+const port = process.env.PORT || 8888;
 
 const app = express();
 app.use(credentials);
@@ -53,8 +53,11 @@ setupSwagger(app);
 route(app);
 
 // Lắng nghe trên localhost
-https.createServer(options, app).listen(port, () => {
-    console.log(`Server running at https://localhost:${port}`);
-    console.log(`Swagger UI available at https://localhost:${port}/api-docs`);
-});
+// https.createServer(options, app).listen(port, () => {
+//     console.log(`Server running at https://localhost:${port}`);
+//     console.log(`Swagger UI available at https://localhost:${port}/api-docs`);
+// });
 
+app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+});
