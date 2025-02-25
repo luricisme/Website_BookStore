@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --inspect ./servers/server.js",
+    "start": "node ./servers/server.js",
+    "dev": "nodemon --inspect ./servers/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
