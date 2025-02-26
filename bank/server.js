@@ -1,40 +1,32 @@
+require('dotenv').config();
 
-require('dotenv').config({ path: '../.env' });
-
-// Import các module cần thiết
- // Xử lý đường dẫn tệp
-const express = require('express'); // Web framework cho Node.js
+// LIBRARY
+const express = require('express');
 const path = require('path');
-const { format } = require('date-fns'); // Import date-fns library
-
-
-const https = require('https');
-const fs = require('fs');
-
-const privateKey = fs.readFileSync(path.join(__dirname, '../backend/sslkeys/key.pem'), 'utf8');
-const certificate = fs.readFileSync(path.join(__dirname, '../backend/sslkeys/cert.pem'), 'utf8');
-const options = { key: privateKey, cert: certificate };
-
-
+const { format } = require('date-fns');
 const morgan = require('morgan'); // Module ghi log
 const expressHandlebars = require('express-handlebars'); // Template engine
 const session = require('express-session');
-
-const app = express();
-const port = process.env.PORT_BANK; // Cổng để chạy server
-
 const bodyParser = require('body-parser'); // Xử lý dữ liệu từ các yêu cầu HTTP
 const cors = require('cors');
-
 const route = require('./routes/index.routes');
 const pool = require('./config/database');
+const https = require('https');
+const fs = require('fs');
+
+const domain_backend = process.env.DOMAIN_BACKEND || 'https://website-bookstore.onrender.com';
+
+const app = express();
+const isProduction = process.env.NODE_ENV === 'production';
+console.log('IS PRODUCTION: ', isProduction);
+const port = process.env.PORT || 6868; // Cổng để chạy server
 
 // Cấu hình CORS
 app.use(cors({
-    origin: 'https://localhost:8888', // Cho phép origin cụ thể (có thể thay đổi theo nhu cầu)
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], 
-    allowedHeaders: ['Content-Type', 'Authorization'], 
-    credentials: true, 
+    origin: domain_backend,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
     optionsSuccessStatus: 200
 }));
 
@@ -44,8 +36,8 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
     cookie: {
-        secure: false,        // Cấu hình cookie, với secure: true nếu chạy trên https
-        maxAge: 1000 * 60 * 60 * 24// Thời gian sống của cookie (1h * 24) } 
+        secure: isProduction,
+        maxAge: 1000 * 60 * 60 * 24
     }
 }));
 
@@ -57,8 +49,8 @@ app.use(bodyParser.json());
 
 // Cấu hình thư mục tĩnh cho các file CSS, JS, hình ảnh
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(morgan('combined')); // Cấu hình ghi log HTTP requests
-app.use(express.json()); // Xử lý dữ liệu JSON từ yêu cầu HTTP
+app.use(morgan('combined'));
+app.use(express.json());
 
 // Cấu hình Handlebars làm template engine
 app.engine('hbs', expressHandlebars.engine({
@@ -76,15 +68,13 @@ app.engine('hbs', expressHandlebars.engine({
             }
             return result;
         },
-        formatDate: function(date) {
+        formatDate: function (date) {
             return format(new Date(date), ' HH:mm:ss dd/MM/yyyy');
         }
     }
 }));
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'views')); // Đặt thư mục views
-
-
 
 // Kiểm tra kết nối với PostgreSQL
 pool.connect((err, client, release) => {
@@ -95,11 +85,22 @@ pool.connect((err, client, release) => {
     release();
 });
 
-
-
 // Route init
 route(app);
 
-
 // Lắng nghe trên localhost
-https.createServer(options, app).listen(port, () => console.log(`Example at: ${process.env.DOMAIN_BANK}`));
+// https.createServer(options, app).listen(port, () => console.log(`Example at: ${process.env.DOMAIN_BANK}`));
+
+if (isProduction) {
+    app.listen(port, () => {
+        console.log(`🚀 Server running on Render at ${port}`);
+    });
+} else {
+    const privateKey = fs.readFileSync(path.join(__dirname, '../backend/sslkeys/key.pem'), 'utf8');
+    const certificate = fs.readFileSync(path.join(__dirname, '../backend/sslkeys/cert.pem'), 'utf8');
+    const options = { key: privateKey, cert: certificate };
+
+    https.createServer(options, app).listen(port, () => {
+        console.log(`🚀 Server bank running at https://localhost:${port}`);
+    });
+}
