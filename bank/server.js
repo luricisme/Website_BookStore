@@ -96,11 +96,7 @@ if (isProduction) {
         console.log(`🚀 Server running on Render at ${port}`);
     });
 } else {
-    const privateKey = fs.readFileSync(path.join(__dirname, '../backend/sslkeys/key.pem'), 'utf8');
-    const certificate = fs.readFileSync(path.join(__dirname, '../backend/sslkeys/cert.pem'), 'utf8');
-    const options = { key: privateKey, cert: certificate };
-
-    https.createServer(options, app).listen(port, () => {
-        console.log(`🚀 Server bank running at https://localhost:${port}`);
+    app.listen(port, () => {
+        console.log(`🚀 Server bank running at http://localhost:${port}`);
     });
 }
