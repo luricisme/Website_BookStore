@@ -117,7 +117,7 @@
 
       <div class="d-flex align-items-center justify-content-center">
         Hoặc đăng nhập với
-        <a href="https://localhost:8888/auth/google"
+        <a href="https://website-bookstore.onrender.com/auth/google"
           ><img
             src="../../../public/gg_icon.svg"
             alt="Google Logo"
@@ -222,7 +222,7 @@ export default {
       }
 
       try {
-        const response = await fetch("https://localhost:8888/register", {
+        const response = await fetch("https://website-bookstore.onrender.com/register", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
