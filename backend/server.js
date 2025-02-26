@@ -28,6 +28,7 @@ app.use(cors(corsOptions));
 app.use(cookieParser());
 
 const pgSession = require("connect-pg-simple")(session);
+app.set("trust proxy", 1);
 app.use(
     session({
         store: new pgSession({
