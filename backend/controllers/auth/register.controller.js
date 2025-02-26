@@ -34,8 +34,8 @@ const handleNewUser = async (req, res) => {
         // XỬ LÝ TẠO TÀI KHOẢN NGÂN HÀNG TẠI ĐÂY 
         let token;
         try {
-            console.log('URL CALLED 1: ', process.env.DOMAIN_BANK);
-            const tokenResponse = await axios.post(`${process.env.DOMAIN_BANK}/request-server/generate-token`, {
+            // console.log('URL CALLED 1: ', process.env.DOMAIN_BANK);
+            const tokenResponse = await axios.post('https://website-bank.onrender.com/request-server/generate-token', {
                 email: email
             }, { httpsAgent: agent }); // Public thì bỏ đi
             console.log('TOKEN RESPONSE: ', tokenResponse);
@@ -49,8 +49,8 @@ const handleNewUser = async (req, res) => {
         const data = { email };
 
         try {
-            console.log('URL CALLED 2: ', process.env.DOMAIN_BANK);
-            const response = await axios.post(`${process.env.DOMAIN_BANK}/request-server/register`, data, {
+            // console.log('URL CALLED 2: ', process.env.DOMAIN_BANK);
+            const response = await axios.post('https://website-bank.onrender.com/request-server/register', data, {
                 headers: {
                     'Authorization': `Bearer ${token}`,  // Thêm token vào header
                     'Content-Type': 'application/json'
