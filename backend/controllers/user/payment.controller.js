@@ -10,10 +10,9 @@ const pool = require('../../config/database');
 const https = require('https');
 
 // Public thì bỏ đi
-const agent =
-    process.env.NODE_ENV === 'development'
-        ? new https.Agent({ rejectUnauthorized: false }) 
-        : undefined;
+const agent = process.env.NODE_ENV !== 'production'
+    ? new https.Agent({ rejectUnauthorized: false }) // Bỏ kiểm tra SSL khi chạy local
+    : new https.Agent({ rejectUnauthorized: true });  // Luôn kiểm tra SSL khi deploy
 
 
 class PaymentController {
@@ -205,7 +204,7 @@ async function updateQuantityOfBook(bookDetails) {
     }
 }
 
-async function deleteFromCart(email, bookDetails){
+async function deleteFromCart(email, bookDetails) {
     try {
         for (const book of bookDetails) {
             const { id_book } = book;
