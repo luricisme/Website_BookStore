@@ -1,28 +1,34 @@
 const { defineConfig } = require('@vue/cli-service');
+const fs = require('fs');
+const path = require('path');
 
 module.exports = defineConfig({
   transpileDependencies: true,
-  publicPath: process.env.NODE_ENV === 'production' ? '/' : '/',
-
   devServer: {
+    server: {
+      type: 'https',
+      options: {
+        key: fs.readFileSync(path.join(__dirname, './sslkeys/key.pem')), // Đường dẫn tới private key
+        cert: fs.readFileSync(path.join(__dirname, './sslkeys/cert.pem')), // Đường dẫn tới certificate
+      },
+    },
+    port: 8080,
+    host: 'localhost',
+    allowedHosts: 'all',
     proxy: {
       '/api': {
-        target: process.env.NODE_ENV === 'production'
-          ? 'https://website-bookstore.onrender.com' // Backend khi deploy
-          : 'http://localhost:8888', // Backend khi chạy local
+        target: 'https://website-bookstore.onrender.com',
         changeOrigin: true,
         pathRewrite: { '^/api': '' },
       },
     },
   },
-
-  configureWebpack: (config) => {
-    if (process.env.NODE_ENV === 'production') {
-      config.plugins.push(
-        new (require('webpack')).DefinePlugin({
-          'process.env.VUE_APP_API_URL': JSON.stringify('https://website-bookstore.onrender.com'),
-        })
+  chainWebpack: config => {
+    config.plugin('define').tap(definitions => {
+      definitions[0]['process.env'].VUE_APP_API_URL = JSON.stringify(
+        process.env.VUE_APP_API_URL || 'https://website-bookstore.onrender.com'
       );
-    }
-  },
+      return definitions;
+    });
+  }
 });
