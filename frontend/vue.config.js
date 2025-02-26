@@ -1,4 +1,4 @@
-const { defineConfig } = require('@vue/cli-service');
+const { defineConfig } = require('@vue/cli-service')
 const fs = require('fs');
 const path = require('path');
 
@@ -12,23 +12,16 @@ module.exports = defineConfig({
         cert: fs.readFileSync(path.join(__dirname, './sslkeys/cert.pem')), // Đường dẫn tới certificate
       },
     },
-    port: 8080,
+    port: 8080,  // Chạy trên cổng 8080 hoặc cổng bạn chọn
     host: 'localhost',
-    allowedHosts: 'all',
+    allowedHosts: 'all', // Chấp nhận tất cả các hosts (có thể thay thế theo nhu cầu)
+
     proxy: {
-      '/api': {
-        target: 'https://website-bookstore.onrender.com',
-        changeOrigin: true,
-        pathRewrite: { '^/api': '' },
+      '/api': {  // Tất cả các yêu cầu bắt đầu với `/api` sẽ được chuyển tiếp
+        target: 'https://website-bookstore.onrender.com', // Địa chỉ của backend (nếu backend của bạn chạy trên 8080)
+        changeOrigin: true, // Đổi Origin trong request header
+        pathRewrite: { '^/api': '' }, // Xóa `/api` trong URL trước khi gửi yêu cầu tới backend
       },
     },
   },
-  chainWebpack: config => {
-    config.plugin('define').tap(definitions => {
-      definitions[0]['process.env'].VUE_APP_API_URL = JSON.stringify(
-        process.env.VUE_APP_API_URL || 'https://website-bookstore.onrender.com'
-      );
-      return definitions;
-    });
-  }
 });

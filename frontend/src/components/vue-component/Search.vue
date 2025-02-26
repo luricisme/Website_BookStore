@@ -397,7 +397,7 @@ export default {
         this.typeSort = "";
       }
 
-      const url = `/api/search/filter?keyword=${this.searchQuery}&page=${this.page}&genre=${this.selectGenre}&age=${this.selectAge}&startPrice=${this.startPrice}&endPrice=${this.endPrice}&${this.sortBy}=${this.typeSort}`;
+      const url = `${process.env.VUE_APP_API_URL}/search/filter?keyword=${this.searchQuery}&page=${this.page}&genre=${this.selectGenre}&age=${this.selectAge}&startPrice=${this.startPrice}&endPrice=${this.endPrice}&${this.sortBy}=${this.typeSort}`;
       console.log(url);
       axios
         .get(url)
@@ -419,7 +419,7 @@ export default {
     },
     async fetchGenres() {
       try {
-        const response = await axios.get("/api/genres"); // Thực hiện GET request
+        const response = await axios.get("${process.env.VUE_APP_API_URL}/genres"); // Thực hiện GET request
         this.categories = response.data.genres;
       } catch (error) {
         console.error("Error fetching genres:", error);
@@ -446,7 +446,7 @@ export default {
       this.isLoading = true;
       try {
         const response = await axios.get(
-          `/api/search?keyword=${this.searchQuery}&page=${this.page}`
+          `${process.env.VUE_APP_API_URL}/search?keyword=${this.searchQuery}&page=${this.page}`
         ); // Lấy API qua proxy
         if (response.data.success) {
           this.arrayBook = response.data.data;

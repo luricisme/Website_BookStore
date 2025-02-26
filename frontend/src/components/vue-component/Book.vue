@@ -981,7 +981,7 @@ export default {
     async fetchBookDetails(id) {
       this.isLoadingImage = true;
       try {
-        const response = await axios.get(`/api/detail-book?id=${id}`); // Lấy API qua proxy
+        const response = await axios.get(`${process.env.VUE_APP_API_URL}/detail-book?id=${id}`); // Lấy API qua proxy
         if (response.data.success) {
           this.book = response.data.data;
           console.log(this.book);
@@ -1125,7 +1125,7 @@ export default {
     async getReview(id, page) {
       try {
         const response = await axios.get(
-          `/api/detail-book/get-reviews?id=${id}&page=${page}`
+          `${process.env.VUE_APP_API_URL}/detail-book/get-reviews?id=${id}&page=${page}`
         ); // Lấy API qua proxy
         if (response.data.success) {
           const result = response.data;

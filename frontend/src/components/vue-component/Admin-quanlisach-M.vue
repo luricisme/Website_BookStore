@@ -1609,7 +1609,7 @@ export default {
     fetchDetailBook(id) {
       console.log("fasdfffdffffffff", this.edit_Book);
       this.isLoadingAction = true;
-      const url = `/api/detail-book?id=${id}`;
+      const url = `${process.env.VUE_APP_API_URL}/detail-book?id=${id}`;
       fetch(url, {
         method: "GET",
       })

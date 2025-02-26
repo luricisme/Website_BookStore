@@ -136,7 +136,7 @@ export default {
     async getApiEconomy() {
       this.loading = true;
       try {
-        const response = await axios.get(`/api/book-economy`); // Lấy API qua proxy
+        const response = await axios.get(`${process.env.VUE_APP_API_URL}/book-economy`); // Lấy API qua proxy
 
         if (response.data.success) {
           this.kinhTe = response.data.economyBooks;
@@ -151,7 +151,7 @@ export default {
     async getApiLiterary() {
       this.loading = true;
       try {
-        const response = await axios.get(`/api/book-literary`); // Lấy API qua proxy
+        const response = await axios.get(`${process.env.VUE_APP_API_URL}/book-literary`); // Lấy API qua proxy
 
         if (response.data.success) {
           this.vanHoc = response.data.literaryBooks;
@@ -167,7 +167,7 @@ export default {
     async getApiNovel() {
       this.loading = true;
       try {
-        const response = await axios.get(`/api/book-novel`); // Lấy API qua proxy
+        const response = await axios.get(`${process.env.VUE_APP_API_URL}/book-novel`); // Lấy API qua proxy
 
         if (response.data.success) {
           console.log(response.data);
@@ -183,7 +183,7 @@ export default {
     async getApiPsychology() {
       this.loading = true;
       try {
-        const response = await axios.get(`/api/book-psychology`); // Lấy API qua proxy
+        const response = await axios.get(`${process.env.VUE_APP_API_URL}/book-psychology`); // Lấy API qua proxy
 
         if (response.data.success) {
           console.log(response.data);

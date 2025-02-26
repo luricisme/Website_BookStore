@@ -45,7 +45,7 @@ export default {
     async getApi() {
       this.loading = true;
       try {
-        const response = await axios.get(`/api/top-book`); // Lấy API qua proxy
+        const response = await axios.get(`${process.env.VUE_APP_API_URL}/top-book`); // Lấy API qua proxy
 
         if (response.data.success) {
           this.arrayBook = response.data.topBooks;
