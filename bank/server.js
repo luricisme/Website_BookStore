@@ -14,7 +14,7 @@ const pool = require('./config/database');
 const https = require('https');
 const fs = require('fs');
 
-const domain_backend = process.env.DOMAIN_BACKEND || 'https://website-bookstore.onrender.com';
+const domain_backend = process.env.DOMAIN_BACKEND || 'https://localhost:8888';
 
 const app = express();
 const isProduction = process.env.NODE_ENV === 'production';
@@ -23,7 +23,7 @@ const port = process.env.PORT || 6868; // Cổng để chạy server
 
 // Cấu hình CORS
 app.use(cors({
-    origin: domain_backend,
+    origin: isProduction ? domain_backend : 'https://localhost:8888',
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,

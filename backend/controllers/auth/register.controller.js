@@ -6,10 +6,9 @@ const https = require('https');
 const pool = require('../../config/database');
 
 // Public thì bỏ đi
-const agent =
-    process.env.NODE_ENV === 'development'
-        ? new https.Agent({ rejectUnauthorized: false })
-        : undefined;
+const agent = process.env.NODE_ENV !== 'production'
+    ? new https.Agent({ rejectUnauthorized: false }) // Bỏ kiểm tra SSL khi chạy local
+    : new https.Agent({ rejectUnauthorized: true });  // Luôn kiểm tra SSL khi deploy
 
 // [POST]: /register
 const handleNewUser = async (req, res) => {

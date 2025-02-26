@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Tạo instance Axios
 const axiosInstance = axios.create({
-    baseURL: 'https://localhost:8888',
+    baseURL: 'https://website-bookstore.onrender.com',
     timeout: 10000, // Thời gian timeout của các yêu cầu
 });
 
