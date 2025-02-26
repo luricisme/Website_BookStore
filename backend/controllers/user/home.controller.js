@@ -37,7 +37,7 @@ class HomeController {
     // [GET] /
     async getRandomBooksByEconomy(req, res) {
         try {
-            const economyBooks = await HomeModel.getRandomBooksByGenre(3);
+            const economyBooks = await HomeModel.getRandomBooksByGenre(1);
 
             return res.json({
                 success: true,
@@ -53,7 +53,7 @@ class HomeController {
     // [GET] /
     async getRandomBooksByPsychology(req, res) {
         try {
-            const psychologyBooks = await HomeModel.getRandomBooksByGenre(4);
+            const psychologyBooks = await HomeModel.getRandomBooksByGenre(2);
 
             return res.json({
                 success: true,
@@ -69,7 +69,7 @@ class HomeController {
     // [GET] /
     async getRandomBooksByLiterary(req, res) {
         try {
-            const literaryBooks = await HomeModel.getRandomBooksByGenre(6);
+            const literaryBooks = await HomeModel.getRandomBooksByGenre(3);
 
             return res.json({
                 success: true,
@@ -85,7 +85,7 @@ class HomeController {
     // [GET] /
     async getRandomBooksByNovel(req, res) {
         try {
-            const novelBooks = await HomeModel.getRandomBooksByGenre(7);
+            const novelBooks = await HomeModel.getRandomBooksByGenre(4);
 
             return res.json({
                 success: true,

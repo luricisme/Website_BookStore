@@ -126,58 +126,60 @@ CREATE TABLE Invoice (
     CONSTRAINT fk_order FOREIGN KEY (ID_Order) REFERENCES Orders (ID_Order)
 ); 
 
+CREATE TABLE "session" (
+    sid VARCHAR PRIMARY KEY,
+    sess JSON NOT NULL,
+    expire TIMESTAMP(6) NOT NULL
+);
+
 ALTER TABLE Book
 ADD COLUMN Status INT DEFAULT 1;
 
-INSERT INTO Categories (Name) 
-VALUES 
+INSERT INTO Categories (Name)
+VALUES
+    ('Kinh tế'),
+    ('Tâm lý'),
+    ('Văn học'),
     ('Tiểu thuyết'),
-    ('Truyện tranh'),
-    ('Kinh doanh'),
-    ('Tâm lý học'),
-    ('Khoa học viễn tưởng');
+    ('Giáo dục');
 
--- Tiểu thuyết (Giả sử ID_Category = 1)
-INSERT INTO Book (Book_Name, List_Price, Discounted_Price, Genre, Age_Group, Supplier, Translator, Author, Publisher, Publication_Year, Language, Pages, Description, Rating_Count, Cover_Type, Available_Quantity, Sold_Quantity)
+INSERT INTO Book (
+    Book_Name, List_Price, Discounted_Price, Genre, Age_Group, Supplier, Translator, 
+    Author, Publisher, Publication_Year, Language, Pages, Description, Rating_Count, 
+    Cover_Type, Available_Quantity, Sold_Quantity
+)
 VALUES
-('Chuyện Người Con Gái Nam Xương', 120000, 100000, 1, 'Trên 16 tuổi', 'NXB Văn Học', NULL, 'Nguyễn Dữ', 'NXB Văn Học', 2020, 'Tiếng Việt', 200, 'Một trong những tác phẩm cổ điển nổi bật của văn học Việt Nam.', 500, 'Bìa mềm', 100, 50),
-('Nỗi Buồn Chiến Tranh', 150000, 130000, 1, 'Trên 18 tuổi', 'NXB Trẻ', NULL, 'Bảo Ninh', 'NXB Trẻ', 2019, 'Tiếng Việt', 250, 'Một góc nhìn khác về chiến tranh Việt Nam.', 800, 'Bìa cứng', 70, 40),
-('Đất Rừng Phương Nam', 100000, 90000, 1, 'Thiếu nhi', 'NXB Kim Đồng', NULL, 'Đoàn Giỏi', 'NXB Kim Đồng', 2018, 'Tiếng Việt', 180, 'Tác phẩm dành cho thiếu nhi về thiên nhiên Nam Bộ.', 600, 'Bìa mềm', 150, 60),
-('Tắt Đèn', 90000, 80000, 1, 'Trên 16 tuổi', 'NXB Văn Học', NULL, 'Ngô Tất Tố', 'NXB Văn Học', 2017, 'Tiếng Việt', 190, 'Cuộc sống của người nông dân Việt Nam trước cách mạng.', 750, 'Bìa mềm', 120, 80),
-('Số Đỏ', 110000, 95000, 1, 'Trên 16 tuổi', 'NXB Hội Nhà Văn', NULL, 'Vũ Trọng Phụng', 'NXB Hội Nhà Văn', 2015, 'Tiếng Việt', 220, 'Truyện châm biếm sâu sắc về xã hội Việt Nam thời Pháp thuộc.', 900, 'Bìa mềm', 90, 30);
+-- Kinh tế
+    ('The Psychology of Money', 300000, 250000, 1, 'Người lớn', 'Nhà Sách ABC', 'Nguyễn Văn A', 'Morgan Housel', 'Nhà xuất bản XYZ', 2020, 'Tiếng Việt', 200, 'Một cuốn sách về cách thức quản lý tiền bạc và tâm lý tài chính', 1500, 'Bìa mềm', 100, 50),
+    ('Atomic Habits', 400000, 350000, 1, 'Người lớn', 'Nhà Sách ABC', 'Nguyễn Văn B', 'James Clear', 'Nhà xuất bản DEF', 2018, 'Tiếng Anh', 250, 'Sự thay đổi nhỏ trong thói quen có thể tạo ra sự khác biệt lớn', 2000, 'Bìa cứng', 120, 70),
+    ('Principles: Life and Work', 500000, 450000, 1, 'Người lớn', 'Nhà Sách XYZ', 'Nguyễn Văn C', 'Ray Dalio', 'Nhà xuất bản GHI', 2017, 'Tiếng Việt', 300, 'Cuốn sách chia sẻ về các nguyên tắc làm việc và sống của Ray Dalio', 1000, 'Bìa mềm', 80, 40),
+    ('The Intelligent Investor', 350000, 300000, 1, 'Người lớn', 'Nhà Sách DEF', 'Nguyễn Văn D', 'Benjamin Graham', 'Nhà xuất bản ABC', 1949, 'Tiếng Anh', 400, 'Cuốn sách nổi tiếng về đầu tư của Benjamin Graham', 2500, 'Bìa cứng', 90, 30),
+    ('Thinking, Fast and Slow', 450000, 400000, 1, 'Người lớn', 'Nhà Sách XYZ', 'Nguyễn Văn E', 'Daniel Kahneman', 'Nhà xuất bản JKL', 2011, 'Tiếng Việt', 500, 'Cuốn sách khám phá hai chế độ suy nghĩ của con người: nhanh và chậm', 3000, 'Bìa mềm', 150, 80),
 
--- Truyện tranh (Giả sử ID_Category = 2)
-INSERT INTO Book (Book_Name, List_Price, Discounted_Price, Genre, Age_Group, Supplier, Translator, Author, Publisher, Publication_Year, Language, Pages, Description, Rating_Count, Cover_Type, Available_Quantity, Sold_Quantity)
-VALUES
-('Doraemon', 30000, 25000, 2, 'Thiếu nhi', 'NXB Kim Đồng', NULL, 'Fujiko F. Fujio', 'NXB Kim Đồng', 2021, 'Tiếng Việt', 100, 'Truyện tranh hài hước và giáo dục dành cho thiếu nhi.', 1500, 'Bìa mềm', 200, 150),
-('One Piece', 35000, 30000, 2, 'Thiếu niên', 'NXB Kim Đồng', NULL, 'Eiichiro Oda', 'NXB Kim Đồng', 2022, 'Tiếng Việt', 120, 'Cuộc hành trình của những hải tặc truy tìm kho báu.', 2000, 'Bìa mềm', 250, 200),
-('Naruto', 35000, 30000, 2, 'Thiếu niên', 'NXB Kim Đồng', NULL, 'Masashi Kishimoto', 'NXB Kim Đồng', 2020, 'Tiếng Việt', 110, 'Câu chuyện về cậu bé ninja với ước mơ trở thành Hokage.', 1700, 'Bìa mềm', 180, 140),
-('Conan', 32000, 28000, 2, 'Thiếu niên', 'NXB Kim Đồng', NULL, 'Gosho Aoyama', 'NXB Kim Đồng', 2021, 'Tiếng Việt', 100, 'Thám tử học đường phá giải các vụ án phức tạp.', 1900, 'Bìa mềm', 220, 180),
-('Attack on Titan', 40000, 35000, 2, 'Trên 16 tuổi', 'NXB Kim Đồng', NULL, 'Hajime Isayama', 'NXB Kim Đồng', 2023, 'Tiếng Việt', 130, 'Cuộc chiến sinh tồn giữa con người và Titan.', 2100, 'Bìa mềm', 200, 170);
+-- Tâm lý
+    ('Quiet: The Power of Introverts in a World That Can’t Stop Talking', 350000, 300000, 2, 'Người lớn', 'Nhà Sách XYZ', 'Nguyễn Văn F', 'Susan Cain', 'Nhà xuất bản MNO', 2012, 'Tiếng Việt', 350, 'Cuốn sách khám phá sức mạnh của người hướng nội trong một thế giới ồn ào', 1200, 'Bìa cứng', 60, 30),
+    ('Daring Greatly', 400000, 350000, 2, 'Người lớn', 'Nhà Sách ABC', 'Nguyễn Văn G', 'Brené Brown', 'Nhà xuất bản PQR', 2012, 'Tiếng Anh', 300, 'Một cuốn sách về lòng dũng cảm và sự xấu hổ', 1000, 'Bìa mềm', 70, 40),
+    ('Man’s Search for Meaning', 250000, 220000, 2, 'Người lớn', 'Nhà Sách DEF', 'Nguyễn Văn H', 'Viktor Frankl', 'Nhà xuất bản STU', 1946, 'Tiếng Việt', 150, 'Cuốn sách về những trải nghiệm tâm lý của một bác sĩ tâm thần trong trại tập trung', 5000, 'Bìa mềm', 120, 60),
+    ('The Subtle Art of Not Giving a F*ck', 350000, 300000, 2, 'Người lớn', 'Nhà Sách XYZ', 'Nguyễn Văn I', 'Mark Manson', 'Nhà xuất bản VWX', 2016, 'Tiếng Việt', 250, 'Cuốn sách thẳng thắn về việc tập trung vào những điều quan trọng', 1500, 'Bìa cứng', 90, 50),
+    ('The Power of Now', 400000, 350000, 2, 'Người lớn', 'Nhà Sách ABC', 'Nguyễn Văn J', 'Eckhart Tolle', 'Nhà xuất bản YZ', 1997, 'Tiếng Việt', 200, 'Cuốn sách về sự tỉnh thức và sống trong khoảnh khắc hiện tại', 3500, 'Bìa mềm', 110, 70),
 
--- Kinh doanh (Giả sử ID_Category = 3)
-INSERT INTO Book (Book_Name, List_Price, Discounted_Price, Genre, Age_Group, Supplier, Translator, Author, Publisher, Publication_Year, Language, Pages, Description, Rating_Count, Cover_Type, Available_Quantity, Sold_Quantity)
-VALUES
-('Dạy Con Làm Giàu', 200000, 180000, 3, 'Trên 18 tuổi', 'NXB Trẻ', 'Nguyễn Văn A', 'Robert T. Kiyosaki', 'NXB Trẻ', 2021, 'Tiếng Việt', 300, 'Bí quyết tài chính cá nhân và đầu tư.', 2500, 'Bìa cứng', 100, 80),
-('7 Thói Quen Hiệu Quả', 220000, 200000, 3, 'Trên 18 tuổi', 'NXB Lao Động', 'Nguyễn Văn B', 'Stephen R. Covey', 'NXB Lao Động', 2020, 'Tiếng Việt', 350, 'Phát triển bản thân và kỹ năng quản lý thời gian.', 2300, 'Bìa cứng', 90, 70),
-('Tư Duy Nhanh Và Chậm', 250000, 230000, 3, 'Trên 18 tuổi', 'NXB Trẻ', 'Nguyễn Văn C', 'Daniel Kahneman', 'NXB Trẻ', 2019, 'Tiếng Việt', 400, 'Khám phá cách bộ não xử lý thông tin.', 2000, 'Bìa cứng', 80, 60),
-('Khởi Nghiệp Tinh Gọn', 210000, 190000, 3, 'Trên 18 tuổi', 'NXB Lao Động', 'Nguyễn Văn D', 'Eric Ries', 'NXB Lao Động', 2021, 'Tiếng Việt', 320, 'Chiến lược khởi nghiệp hiện đại.', 1800, 'Bìa cứng', 110, 85),
-('Tỷ Phú Bán Giày', 180000, 160000, 3, 'Trên 18 tuổi', 'NXB Trẻ', 'Nguyễn Văn E', 'Tony Hsieh', 'NXB Trẻ', 2018, 'Tiếng Việt', 280, 'Câu chuyện thành công từ Zappos.', 1700, 'Bìa mềm', 120, 90);
+-- Văn học
+    ('The Midnight Library', 380000, 330000, 3, 'Người lớn', 'Nhà Sách XYZ', 'Nguyễn Văn K', 'Matt Haig', 'Nhà xuất bản BCD', 2020, 'Tiếng Việt', 350, 'Một cuốn sách về cuộc sống và những lựa chọn', 2000, 'Bìa cứng', 130, 60),
+    ('Where the Crawdads Sing', 450000, 400000, 3, 'Người lớn', 'Nhà Sách ABC', 'Nguyễn Văn L', 'Delia Owens', 'Nhà xuất bản EFG', 2018, 'Tiếng Anh', 370, 'Một cuốn sách mang tính huyền bí về tình yêu và sự cô đơn', 2500, 'Bìa mềm', 80, 40),
+    ('The Book Thief', 400000, 350000, 3, 'Người lớn', 'Nhà Sách DEF', 'Nguyễn Văn M', 'Markus Zusak', 'Nhà xuất bản HIJ', 2005, 'Tiếng Việt', 400, 'Một cuốn sách về tình người trong những thời kỳ đen tối của chiến tranh', 3000, 'Bìa cứng', 70, 35),
+    ('Circe', 500000, 450000, 3, 'Người lớn', 'Nhà Sách XYZ', 'Nguyễn Văn N', 'Madeline Miller', 'Nhà xuất bản KLM', 2018, 'Tiếng Anh', 400, 'Một cuốn sách về câu chuyện thần thoại của Circe', 1800, 'Bìa mềm', 120, 50),
+    ('The Night Circus', 460000, 420000, 3, 'Người lớn', 'Nhà Sách ABC', 'Nguyễn Văn O', 'Erin Morgenstern', 'Nhà xuất bản PQR', 2011, 'Tiếng Việt', 450, 'Cuốn sách về một rạp xiếc kỳ bí và những bí mật của nó', 2200, 'Bìa cứng', 110, 60),
 
--- Tâm lý học (Giả sử ID_Category = 4)
-INSERT INTO Book (Book_Name, List_Price, Discounted_Price, Genre, Age_Group, Supplier, Translator, Author, Publisher, Publication_Year, Language, Pages, Description, Rating_Count, Cover_Type, Available_Quantity, Sold_Quantity)
-VALUES
-('Đừng Bao Giờ Từ Bỏ Giấc Mơ', 150000, 130000, 4, 'Trên 18 tuổi', 'NXB Văn Học', NULL, 'John C. Maxwell', 'NXB Văn Học', 2019, 'Tiếng Việt', 250, 'Khuyến khích phát triển tư duy tích cực.', 900, 'Bìa mềm', 80, 50),
-('Sức Mạnh Của Thói Quen', 200000, 180000, 4, 'Trên 18 tuổi', 'NXB Lao Động', 'Nguyễn Văn F', 'Charles Duhigg', 'NXB Lao Động', 2020, 'Tiếng Việt', 310, 'Khám phá sức mạnh của thói quen trong cuộc sống.', 1300, 'Bìa cứng', 100, 70),
-('Trí Tuệ Xúc Cảm', 220000, 200000, 4, 'Trên 18 tuổi', 'NXB Trẻ', 'Nguyễn Văn G', 'Daniel Goleman', 'NXB Trẻ', 2018, 'Tiếng Việt', 280, 'Khám phá và phát triển trí tuệ cảm xúc.', 1100, 'Bìa cứng', 90, 65),
-('Tâm Lý Học Đám Đông', 180000, 160000, 4, 'Trên 18 tuổi', 'NXB Văn Học', NULL, 'Gustave Le Bon', 'NXB Văn Học', 2017, 'Tiếng Việt', 240, 'Nghiên cứu hành vi đám đông.', 950, 'Bìa mềm', 75, 55),
-('Người Dám Cho Đi', 200000, 180000, 4, 'Trên 18 tuổi', 'NXB Trẻ', NULL, 'Bob Burg & John David Mann', 'NXB Trẻ', 2019, 'Tiếng Việt', 290, 'Chia sẻ sức mạnh của sự hào phóng.', 1050, 'Bìa mềm', 85, 60);
+-- Tiểu thuyết
+    ('The Song of Achilles', 450000, 400000, 4, 'Người lớn', 'Nhà Sách XYZ', 'Nguyễn Văn P', 'Madeline Miller', 'Nhà xuất bản STU', 2011, 'Tiếng Việt', 350, 'Cuốn tiểu thuyết huyền thoại về mối quan hệ giữa Achilles và Patroclus', 2500, 'Bìa mềm', 130, 60),
+    ('The Fault in Our Stars', 380000, 330000, 4, 'Người lớn', 'Nhà Sách ABC', 'Nguyễn Văn Q', 'John Green', 'Nhà xuất bản VWX', 2012, 'Tiếng Anh', 320, 'Một câu chuyện cảm động về tình yêu và sự mất mát', 4000, 'Bìa cứng', 110, 50),
+    ('Pride and Prejudice', 350000, 300000, 4, 'Người lớn', 'Nhà Sách DEF', 'Nguyễn Văn R', 'Jane Austen', 'Nhà xuất bản XYZ', 1813, 'Tiếng Việt', 400, 'Một tác phẩm văn học cổ điển về tình yêu và xã hội', 5000, 'Bìa mềm', 90, 40),
+    ('1984', 400000, 350000, 4, 'Người lớn', 'Nhà Sách ABC', 'Nguyễn Văn S', 'George Orwell', 'Nhà xuất bản PQR', 1949, 'Tiếng Việt', 350, 'Cuốn tiểu thuyết về một xã hội toàn trị và kiểm soát tư tưởng', 4500, 'Bìa cứng', 100, 60),
+    ('The Great Gatsby', 450000, 400000, 4, 'Người lớn', 'Nhà Sách XYZ', 'Nguyễn Văn T', 'F. Scott Fitzgerald', 'Nhà xuất bản KLM', 1925, 'Tiếng Việt', 300, 'Một câu chuyện về tình yêu và sự đổ vỡ trong xã hội Mỹ thập niên 1920', 5500, 'Bìa mềm', 130, 80),
 
--- Khoa học viễn tưởng (Giả sử ID_Category = 5)
-INSERT INTO Book (Book_Name, List_Price, Discounted_Price, Genre, Age_Group, Supplier, Translator, Author, Publisher, Publication_Year, Language, Pages, Description, Rating_Count, Cover_Type, Available_Quantity, Sold_Quantity)
-VALUES
-('Dune', 250000, 230000, 5, 'Trên 16 tuổi', 'NXB Trẻ', 'Nguyễn Văn H', 'Frank Herbert', 'NXB Trẻ', 2021, 'Tiếng Việt', 600, 'Một kiệt tác về thế giới sa mạc Arrakis.', 1600, 'Bìa cứng', 100, 80),
-('1984', 180000, 160000, 5, 'Trên 16 tuổi', 'NXB Văn Học', NULL, 'George Orwell', 'NXB Văn Học', 2019, 'Tiếng Việt', 350, 'Thế giới tương lai đầy u ám và kiểm soát.', 1400, 'Bìa mềm', 90, 70),
-('Fahrenheit 451', 190000, 170000, 5, 'Trên 16 tuổi', 'NXB Văn Học', NULL, 'Ray Bradbury', 'NXB Văn Học', 2018, 'Tiếng Việt', 300, 'Một xã hội cấm sách và tự do tri thức.', 1200, 'Bìa mềm', 85, 60),
-('Neuromancer', 210000, 190000, 5, 'Trên 18 tuổi', 'NXB Trẻ', 'Nguyễn Văn I', 'William Gibson', 'NXB Trẻ', 2020, 'Tiếng Việt', 400, 'Tác phẩm khởi nguồn cho thể loại cyberpunk.', 1150, 'Bìa cứng', 95, 65),
-('The Martian', 220000, 200000, 5, 'Trên 16 tuổi', 'NXB Trẻ', 'Nguyễn Văn J', 'Andy Weir', 'NXB Trẻ', 2019, 'Tiếng Việt', 320, 'Cuộc sinh tồn đầy cảm hứng trên sao Hỏa.', 1250, 'Bìa mềm', 100, 75);
+-- Giáo dục
+    ('Educated', 350000, 300000, 5, 'Người lớn', 'Nhà Sách ABC', 'Nguyễn Văn U', 'Tara Westover', 'Nhà xuất bản XYZ', 2018, 'Tiếng Việt', 400, 'Một cuốn hồi ký về hành trình đi tìm kiến thức của tác giả', 4000, 'Bìa cứng', 80, 40),
+    ('The 7 Habits of Highly Effective People', 450000, 400000, 5, 'Người lớn', 'Nhà Sách DEF', 'Nguyễn Văn V', 'Stephen Covey', 'Nhà xuất bản PQR', 1989, 'Tiếng Anh', 380, 'Cuốn sách giúp cải thiện thói quen và kỹ năng sống', 3500, 'Bìa mềm', 100, 50),
+    ('Grit: The Power of Passion and Perseverance', 400000, 350000, 5, 'Người lớn', 'Nhà Sách XYZ', 'Nguyễn Văn W', 'Angela Duckworth', 'Nhà xuất bản STU', 2016, 'Tiếng Việt', 300, 'Cuốn sách về sức mạnh của đam mê và sự kiên trì', 2500, 'Bìa cứng', 90, 60),
+    ('Outliers', 380000, 330000, 5, 'Người lớn', 'Nhà Sách ABC', 'Nguyễn Văn X', 'Malcolm Gladwell', 'Nhà xuất bản GHI', 2008, 'Tiếng Anh', 350, 'Cuốn sách về những yếu tố tạo ra sự thành công', 4500, 'Bìa mềm', 120, 70),
+    ('Mindset: The New Psychology of Success', 420000, 380000, 5, 'Người lớn', 'Nhà Sách DEF', 'Nguyễn Văn Y', 'Carol S. Dweck', 'Nhà xuất bản PQR', 2006, 'Tiếng Việt', 300, 'Cuốn sách về sức mạnh của tư duy phát triển', 3000, 'Bìa cứng', 100, 50);
