@@ -58,7 +58,7 @@ const handleNewUser = async (req, res) => {
                 httpsAgent: agent // Public thì bỏ đi
             });
 
-            console.log('RESPONSE: ', tokenResponse);
+            console.log('RESPONSE: ', response);
             if (!response.data.success) {
                 console.error('Lỗi khi đăng ký tài khoản thanh toán');
                 return res.status(502).json({ message: 'Không thể tạo tài khoản ngân hàng' });
