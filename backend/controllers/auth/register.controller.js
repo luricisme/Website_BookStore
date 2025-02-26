@@ -34,19 +34,22 @@ const handleNewUser = async (req, res) => {
         // XỬ LÝ TẠO TÀI KHOẢN NGÂN HÀNG TẠI ĐÂY 
         let token;
         try {
+            console.log('URL CALLED 1: ', process.env.DOMAIN_BANK);
             const tokenResponse = await axios.post(`${process.env.DOMAIN_BANK}/request-server/generate-token`, {
                 email: email
             }, { httpsAgent: agent }); // Public thì bỏ đi
+            console.log('TOKEN RESPONSE: ', tokenResponse);
 
             token = tokenResponse.data.token;
         } catch (axiosError) {
-            console.error('Error generating token:', axiosError.message);
+            console.error('Không thể tạo token:', axiosError.message);
             return res.status(502).json({ message: 'Không thể tạo token cho tài khoản ngân hàng' });
         }
 
         const data = { email };
 
         try {
+            console.log('URL CALLED 2: ', process.env.DOMAIN_BANK);
             const response = await axios.post(`${process.env.DOMAIN_BANK}/request-server/register`, data, {
                 headers: {
                     'Authorization': `Bearer ${token}`,  // Thêm token vào header
@@ -55,6 +58,7 @@ const handleNewUser = async (req, res) => {
                 httpsAgent: agent // Public thì bỏ đi
             });
 
+            console.log('RESPONSE: ', tokenResponse);
             if (!response.data.success) {
                 console.error('Lỗi khi đăng ký tài khoản thanh toán');
                 return res.status(502).json({ message: 'Không thể tạo tài khoản ngân hàng' });
