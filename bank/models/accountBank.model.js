@@ -1,5 +1,5 @@
 const pool = require('../config/database'); // Kết nối đến cơ sở dữ liệu
-const pool2 = require('../../backend/config/database'); // Kết nối đến cơ sở dữ liệu ở backend
+const pool2 = require('../config/database_backend'); // Kết nối đến cơ sở dữ liệu ở backend
 
 class StatisticalModel {
     async getAmount(email) {
