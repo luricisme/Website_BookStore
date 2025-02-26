@@ -17,6 +17,7 @@ const bodyParser = require('body-parser');
 const route = require('./routes/app.routes');
 const pool = require('./config/database');
 const setupSwagger = require('./config/swaggerConfig');
+const pgSession = require('connect-pg-simple')(session);
 
 const port = process.env.PORT || 8888;
 const isProduction = process.env.NODE_ENV === 'production';
@@ -27,9 +28,19 @@ app.use(credentials);
 app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(session({
-    secret: process.env.SESSION_SECRET,
+    store: new pgSession({
+        pool: pool, // Dùng kết nối PostgreSQL của bạn
+        tableName: 'session' // Bảng lưu session
+    }),
+    secret: process.env.SESSION_SECRET, // Cần có biến môi trường này
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: false,
+    cookie: {
+        secure: process.env.NODE_ENV === 'production', // Chỉ dùng secure trên HTTPS
+        httpOnly: true,
+        sameSite: 'none', // Hỗ trợ CORS
+        maxAge: 24 * 60 * 60 * 1000 // 1 ngày
+    }
 }));
 app.use(passport.initialize());
 app.use(passport.session());
