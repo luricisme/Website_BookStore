@@ -7,6 +7,7 @@ class CartController {
     // [POST]: cart/add
     async addProduct(req, res) {
         const { id_book, quantity } = req.body;
+        console.log('REQ CART BODY: ', req.body);
 
         const authHeader = req.headers.authorization || req.headers.Authorization;
 
@@ -28,7 +29,7 @@ class CartController {
             }
             const cart = req.session.cart;
             const detailedCart = await getDetailedCart(cart);
-
+            console.log('REQ SESSION: ', req.session.cart);
             return res.status(200).json({
                 success: true,
                 message: "Sản phẩm được thêm vào giỏ hàng thành công",
@@ -83,6 +84,8 @@ class CartController {
     // [GET]: cart
     async getCart(req, res) {
         const authHeader = req.headers.authorization || req.headers.Authorization;
+        console.log('AUTH HEADER: ', authHeader);
+        console.log('REQ CART: ', req.session.cart);
 
         // Nếu không có Authorization header, lấy giỏ hàng từ session
         if (!authHeader?.startsWith('Bearer ')) {
@@ -93,6 +96,7 @@ class CartController {
                     cart: [],
                 });
             }
+            console.log('REQ SESSION: ', req.session.cart);
 
             const cart = req.session.cart;
             const detailedCart = await getDetailedCart(cart);

@@ -1,5 +1,6 @@
 const allowedOrigins = [
     'https://website-book-store-mu.vercel.app',
+    'https://website-bookstore.onrender.com',
     'http://127.0.0.1:8080',
     'https://localhost:8080',
     'https://localhost:8888',

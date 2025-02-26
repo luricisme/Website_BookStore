@@ -1040,8 +1040,10 @@ export default {
       this.isLoadingCart = true;
       try {
         const response = await axiosInstance.post("/cart/add", {
-          id_book: `${this.$route.query.id_book}`,
-          quantity: this.quantityOfBook,
+            id_book: `${this.$route.query.id_book}`,
+            quantity: this.quantityOfBook,
+        }, {
+            withCredentials: true // Thêm withCredentials ở đây
         });
 
         if (response.status === 200) {

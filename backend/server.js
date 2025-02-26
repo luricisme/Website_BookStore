@@ -38,9 +38,10 @@ app.use(
         resave: false,
         saveUninitialized: false,
         cookie: {
-            secure: false, // Đặt thành true nếu chạy HTTPS
+            secure: true, // Đặt thành true nếu chạy HTTPS
             httpOnly: true,
             maxAge: 1000 * 60 * 60 * 24, // 1 ngày
+            sameSite: 'None',
         },
     })
 );
