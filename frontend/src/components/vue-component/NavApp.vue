@@ -84,7 +84,7 @@ export default {
     },
     async fetchGenres() {
       try {
-        const response = await axios.get("/api/genres"); // Thực hiện GET request
+        const response = await axios.get(`${process.env.VUE_APP_API_URL}/genres`); // Thực hiện GET request
         this.genres = response.data.genres; // Gán dữ liệu trả về cho `genres`
       } catch (error) {
         console.error("Error fetching genres:", error);
