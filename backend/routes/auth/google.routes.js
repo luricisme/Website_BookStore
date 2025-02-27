@@ -53,13 +53,13 @@ router.get('/google/callback',
                     req.session.cart = tempCart;
                     tempCart = [];
                 }
-                return res.redirect(`https://localhost:8080?status=200&success=true&accessToken=${accessToken}&role=1`);
+                return res.redirect(`https://website-book-store-mu.vercel.app?status=200&success=true&accessToken=${accessToken}&role=1`);
             } else {
-                return res.redirect(`https://localhost:8080?status=401&success=false&message=Login failed`);
+                return res.redirect(`https://website-book-store-mu.vercel.app?status=401&success=false&message=Login failed`);
             }
         } catch (err) {
             console.error(err);
-            return res.redirect(`https://localhost:8080?status=500&success=false&message=Server error`);
+            return res.redirect(`https://website-book-store-mu.vercel.app?status=500&success=false&message=Server error`);
         }
     }
 );
