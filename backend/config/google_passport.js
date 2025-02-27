@@ -27,13 +27,13 @@ passport.use(new GoogleStrategy({
                 const newUser = await userModel.createUserWithGoogle(profile.email, name, 1, profile.id)
                 const email = profile.email;
 
-                const tokenResponse = await axios.post('https://localhost:6868/request-server/generate-token', {
+                const tokenResponse = await axios.post('https://website-bank.onrender.com/request-server/generate-token', {
                     email: email
                 }, { httpsAgent: agent }); // Public thì bỏ đi
 
                 const token = tokenResponse.data.token;
                 const data = { email };
-                const response = await axios.post('https://localhost:6868/request-server/register', data, {
+                const response = await axios.post('https://website-bank.onrender.com/request-server/register', data, {
                     headers: {
                         'Authorization': `Bearer ${token}`,  // Thêm token vào header
                         'Content-Type': 'application/json'
