@@ -5,10 +5,9 @@ const userModel = require('../models/user.model');
 
 const https = require('https');
 // Public thì bỏ đi
-const agent =
-    process.env.NODE_ENV === 'development'
-        ? new https.Agent({ rejectUnauthorized: false })
-        : undefined;
+const agent = process.env.NODE_ENV !== 'production'
+    ? new https.Agent({ rejectUnauthorized: false }) // Bỏ kiểm tra SSL khi chạy local
+    : new https.Agent({ rejectUnauthorized: true });  // Luôn kiểm tra SSL khi deploy
 
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
