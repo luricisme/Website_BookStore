@@ -8,6 +8,7 @@ Book Store 📚 is an online platform for book shopping, where users can browse,
 
 ## Test Account 🔑
 Use the following test account to explore the platform:
+
 **User Account:**  
 📧 Email: `tester@gmail.com`  
 🔑 Password: `tester123`  
@@ -29,6 +30,11 @@ Use the following test account to explore the platform:
 # Bank 
 ## Link: https://website-bank.onrender.com
 ## Description: 
+Bank is a secure online banking platform that allows users to manage their financial activities efficiently.
+
+Users: View transaction history, and check transaction details.
+
+Admin: Manage user accounts (new requests, approved accounts), oversee transactions, review and approve payments, and manage events.
 
 ## Demo 📸
 ![Homepage](https://res.cloudinary.com/dykyxn2rc/image/upload/v1740733218/Something/bank_home.png)
