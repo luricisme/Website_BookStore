@@ -7,5 +7,5 @@ Users: Browse book categories, search by title, add books to the cart, make purc
 Admin: Manage book listings, categories, and users, update information, add posters for homepage, and track orders.
 
 ## Demo 📸
-![Homepage]([https://your-image-link.com/homepage.png](https://res.cloudinary.com/dykyxn2rc/image/upload/v1740732000/Something/bookstore_homepage.png))
+![Homepage](https://res.cloudinary.com/dykyxn2rc/image/upload/v1740732000/Something/bookstore_homepage.png)
 
