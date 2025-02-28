@@ -34,7 +34,7 @@ Bank is a secure online banking platform that allows users to manage their finan
 
 Users: View transaction history, and check transaction details.
 
-Admin: Manage user accounts (new requests, approved accounts), oversee transactions, review and approve payments, and manage events.
+Admin: Manage user accounts (new requests, approved accounts), oversee transactions, and review payments.
 
 ## Demo 📸
 ![Homepage](https://res.cloudinary.com/dykyxn2rc/image/upload/v1740733218/Something/bank_home.png)
